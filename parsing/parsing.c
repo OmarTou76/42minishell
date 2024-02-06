@@ -77,6 +77,7 @@ t_cmd *parse_exec(t_tokens **tokens)
             }
         }
         exec->argv[i] = NULL;
+        exec->is_builtin = cmd_is_builtin(exec->argv[0]);
     }
     return cmd;
 }

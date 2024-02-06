@@ -50,6 +50,7 @@ typedef struct s_exec
     t_type type;
     char **argv;
     int argc;
+    int is_builtin;
 } t_exec;
 
 typedef struct s_pipe
@@ -99,6 +100,7 @@ int handle_redir(t_tokens **tokens, char *cmd, int *i);
 void get_token_list(char *usr_cmd, t_tokens **tokens);
 char *trim_quotes(t_tokens **tokens);
 
+int cmd_is_builtin(char *cmd);
 t_cmd *create_exec(void);
 t_cmd *create_pipe(t_cmd *left, t_cmd *right);
 t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd);
