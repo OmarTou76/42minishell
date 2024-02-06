@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.js": "javascript",
+        "**/templates/*.js": "javascript",
+        "stdlib.h": "c",
+        "minishell.h": "c"
+    }
+}
