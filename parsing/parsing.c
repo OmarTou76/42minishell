@@ -10,21 +10,25 @@ t_cmd *parse_redirs(t_cmd *cmd, t_tokens **tokens)
     if (!ft_strncmp(token->cmd, ">", ft_strlen(token->cmd)))
     {
         cmd = create_redirs(cmd, token->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
+        free(token->cmd);
         remove_tokens(tokens, 2);
     }
     else if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
     {
         cmd = create_redirs(cmd, token->next->cmd, O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
+        free(token->cmd);
         remove_tokens(tokens, 2);
     }
     else if (!ft_strncmp(token->cmd, "<", ft_strlen(token->cmd)))
     {
         cmd = create_redirs(cmd, token->next->cmd, O_RDONLY, STDIN_FILENO);
+        free(token->cmd);
         remove_tokens(tokens, 2);
     }
     else if (!ft_strncmp(token->cmd, "<<", ft_strlen(token->cmd)))
     {
         cmd = create_redirs(cmd, token->next->cmd, O_RDONLY, STDIN_FILENO);
+        free(token->cmd);
         remove_tokens(tokens, 2);
     }
     return cmd;
@@ -58,7 +62,7 @@ t_cmd *parse_exec(t_tokens **tokens)
     }
     if (exec->argc)
     {
-        exec->argv = malloc(sizeof(char *) * exec->argc + 1);
+        exec->argv = malloc(sizeof(char *) * (exec->argc + 1));
         while ((*tokens))
         {
             if ((*tokens)->type == PIPE_CMD)
