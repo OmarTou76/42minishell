@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+void exec_cmd_by_type(t_cmd *cmd, char **envp);
+
 char *get_file_path(char *execname, char **envp)
 {
     char file[1024];
@@ -43,9 +45,14 @@ void run_exec(t_cmd *c, char **envp)
         printf("minishell: command not found: %s\n", e_cmd->argv[0]);
     else
     {
-        free(e_cmd->argv[0]);
-        e_cmd->argv[0] = filepath;
-        execve(e_cmd->argv[0], e_cmd->argv, envp);
+        if (!e_cmd->is_builtin)
+        {
+            free(e_cmd->argv[0]);
+            e_cmd->argv[0] = filepath;
+            execve(e_cmd->argv[0], e_cmd->argv, envp);
+        }
+        else
+            run_builtin(e_cmd, envp);
     }
 }
 
@@ -63,7 +70,7 @@ void run_pipe(t_cmd *cmd, char **envp)
         dup(p[1]);
         close(p[0]);
         close(p[1]);
-        runcmd(p_cmd->left, envp);
+        exec_cmd_by_type(p_cmd->left, envp);
     }
     if (fork() == 0)
     {
@@ -71,7 +78,7 @@ void run_pipe(t_cmd *cmd, char **envp)
         dup(p[0]);
         close(p[0]);
         close(p[1]);
-        runcmd(p_cmd->right, envp);
+        exec_cmd_by_type(p_cmd->right, envp);
     }
     close(p[0]);
     close(p[1]);
@@ -90,10 +97,10 @@ void run_redirs(t_cmd *c, char **envp)
         printf("%s, ", cmd->filename);
         exit_on_error("No such file");
     };
-    runcmd(cmd->cmd, envp);
+    exec_cmd_by_type(cmd->cmd, envp);
 }
 
-void runcmd(t_cmd *cmd, char **envp)
+void exec_cmd_by_type(t_cmd *cmd, char **envp)
 {
     if (cmd->type == EXEC)
         run_exec(cmd, envp);
@@ -101,5 +108,11 @@ void runcmd(t_cmd *cmd, char **envp)
         run_pipe(cmd, envp);
     else if (cmd->type == REDIR_CMD)
         run_redirs(cmd, envp);
-    exit(0);
+}
+
+void runcmd(t_cmd *cmd, char **envp)
+{
+    if (fork() == 0)
+        exec_cmd_by_type(cmd, envp);
+    wait(0);
 }

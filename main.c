@@ -50,10 +50,8 @@ int main(int argc, char const *argv[], char **envp)
         {
             cmds = NULL;
             cmds = parse_tokens(&tokens, envp);
-            //print_cmd()
-            if (fork() == 0)
-                runcmd(cmds, envp);
-            wait(0);
+            // print_cmd(cmds);
+            runcmd(cmds, envp);
             free_cmds(cmds);
         }
         free(cmd);

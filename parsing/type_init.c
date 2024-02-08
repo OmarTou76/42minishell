@@ -1,29 +1,8 @@
 #include "../minishell.h"
 
-#define builtin ""
-
-int	cmd_is_builtin(char *cmd)
+t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 {
-	if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
-		return (1);
-	else if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
-		return (1);
-    else if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
-		return (1);
-    else if (ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0)
-		return (1);
-    else if (ft_strncmp(cmd, "unset", ft_strlen(cmd)) == 0)
-		return (1);
-    else if (ft_strncmp(cmd, "env", ft_strlen(cmd)) == 0)
-		return (1);
-    else if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
-		return (1);
-	return (0);
-}
-
-t_cmd	*create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
-{
-	t_redirs	*redirs;
+	t_redirs *redirs;
 
 	redirs = malloc(sizeof(t_redirs));
 	redirs->type = REDIR_CMD;
@@ -34,9 +13,9 @@ t_cmd	*create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 	return ((t_cmd *)redirs);
 }
 
-t_cmd	*create_exec(void)
+t_cmd *create_exec(void)
 {
-	t_exec	*cmd;
+	t_exec *cmd;
 
 	cmd = malloc(sizeof(t_exec));
 	cmd->type = EXEC;
@@ -46,9 +25,9 @@ t_cmd	*create_exec(void)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd	*create_pipe(t_cmd *left, t_cmd *right)
+t_cmd *create_pipe(t_cmd *left, t_cmd *right)
 {
-	t_pipe	*cmd;
+	t_pipe *cmd;
 
 	cmd = malloc(sizeof(t_pipe));
 	cmd->type = PIPE_CMD;

@@ -100,11 +100,13 @@ int handle_redir(t_tokens **tokens, char *cmd, int *i);
 void get_token_list(char *usr_cmd, t_tokens **tokens);
 char *trim_quotes(t_tokens **tokens);
 
-int cmd_is_builtin(char *cmd);
 t_cmd *create_exec(void);
 t_cmd *create_pipe(t_cmd *left, t_cmd *right);
 t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd);
 t_cmd *parse_tokens(t_tokens **tokens, char **envp);
+
+int cmd_is_builtin(char *cmd);
+void run_builtin(t_exec *cmd, char **envp);
 
 void runcmd(t_cmd *cmd, char **envp);
 void free_cmds(t_cmd *cmd);
