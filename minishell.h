@@ -108,6 +108,9 @@ t_cmd *parse_tokens(t_tokens **tokens, char **envp);
 int cmd_is_builtin(char *cmd);
 void run_builtin(t_exec *cmd, char **envp);
 
+int can_exec(char *filepath);
+char *get_file_path(char *execname, char **envp);
+
 void runcmd(t_cmd *cmd, char **envp);
 void free_cmds(t_cmd *cmd);
 

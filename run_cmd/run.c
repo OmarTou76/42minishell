@@ -2,58 +2,27 @@
 
 void exec_cmd_by_type(t_cmd *cmd, char **envp);
 
-char *get_file_path(char *execname, char **envp)
-{
-    char file[1024];
-    char *filepath;
-    int i;
-    int found;
-
-    i = 0;
-    found = 0;
-    while (*envp && ft_strncmp(*envp, "PATH=", 5) != 0)
-        envp++;
-    char **paths = ft_split(*envp + 5, ':');
-    while (paths[i] && !found)
-    {
-        ft_strlcpy(file, paths[i], 1024);
-        ft_strlcpy(file + ft_strlen(file), "/", 1024);
-        ft_strlcpy(file + ft_strlen(file), execname, 1024);
-        struct stat sb;
-        if (stat(file, &sb) == 0)
-            found++;
-        i++;
-    }
-    if (!found)
-        return (NULL);
-    filepath = ft_strndup(file, ft_strlen(file));
-    i = -1;
-    while (paths[++i])
-        free(paths[i]);
-    free(paths);
-    return (filepath);
-}
-
 void run_exec(t_cmd *c, char **envp)
 {
     t_exec *e_cmd;
     char *filepath;
 
     e_cmd = (t_exec *)c;
-    filepath = get_file_path(e_cmd->argv[0], envp);
-    if (!filepath)
-        printf("minishell: command not found: %s\n", e_cmd->argv[0]);
-    else
+
+    if (!e_cmd->is_builtin)
     {
-        if (!e_cmd->is_builtin)
+        if (!can_exec(e_cmd->argv[0]))
         {
+            filepath = get_file_path(e_cmd->argv[0], envp);
+            if (!filepath)
+                printf("minishell: command not found: %s\n", e_cmd->argv[0]);
             free(e_cmd->argv[0]);
             e_cmd->argv[0] = filepath;
-            execve(e_cmd->argv[0], e_cmd->argv, envp);
         }
-        else
-            run_builtin(e_cmd, envp);
+        execve(e_cmd->argv[0], e_cmd->argv, envp);
     }
+    else
+        run_builtin(e_cmd, envp);
 }
 
 void run_pipe(t_cmd *cmd, char **envp)
