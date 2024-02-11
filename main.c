@@ -22,6 +22,26 @@ void exit_on_error(char *s)
     exit(1);
 }
 
+void signal_handler(int sig, struct __siginfo *info, void *additional)
+{
+    (void)additional;
+    (void)info;
+    if (sig == SIGINT)
+        write(1, "(Signal ctrl-c reçu)", 22);
+}
+
+void listen_signals(void)
+{
+    struct sigaction sa;
+
+    sa.sa_flags = SA_SIGINFO;
+
+    sa.sa_sigaction = &signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sigaddset(&sa.sa_mask, SIGINT);
+    sigaction(SIGINT, &sa, NULL);
+}
+
 int main(int argc, char const *argv[], char **envp)
 {
     (void)argc;
@@ -29,8 +49,10 @@ int main(int argc, char const *argv[], char **envp)
     t_tokens *tokens;
     char *cmd;
     t_cmd *cmds;
+
     while (1)
     {
+        listen_signals();
         cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
         if (!ft_strlen(cmd))
         {
