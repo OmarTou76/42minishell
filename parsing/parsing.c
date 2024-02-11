@@ -72,6 +72,7 @@ t_cmd *parse_exec(t_tokens **tokens)
             else
             {
                 exec->argv[i] = trim_quotes(tokens);
+
                 i++;
                 remove_tokens(tokens, 1);
             }
@@ -99,10 +100,9 @@ t_cmd *parse_pipe(t_tokens **tokens)
     return (cmd);
 }
 
-t_cmd *parse_tokens(t_tokens **tokens, char **envp)
+t_cmd *parse_tokens(t_tokens **tokens)
 {
     t_cmd *cmd;
-    (void)envp;
     cmd = parse_pipe(tokens);
     return cmd;
 }
