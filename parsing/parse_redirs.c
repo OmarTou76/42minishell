@@ -5,7 +5,7 @@ t_cmd *stdout_redirs(t_cmd *cmd, t_tokens **tokens)
     t_tokens *token;
 
     token = *tokens;
-    if (!ft_strncmp(token->cmd, ">>", ft_strlen(token->cmd)))
+    if (!ft_strcmp(token->cmd, ">>"))
         cmd = create_redirs(cmd, token->next->cmd, O_WRONLY | O_APPEND | O_CREAT, STDOUT_FILENO);
     else
         cmd = create_redirs(cmd, token->next->cmd, O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
