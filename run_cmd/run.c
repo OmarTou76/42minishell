@@ -66,7 +66,7 @@ void save_heredoc(t_redirs *cmd, char **envp)
     fd = open("__tmp_file__", O_WRONLY | O_APPEND | O_CREAT, 0777);
     while (1)
     {
-        line = readline("heredoc>");
+        line = readline("heredoc> ");
         if (ft_strncmp(line, cmd->filename, ft_strlen(line)) == 0)
         {
             free(line);

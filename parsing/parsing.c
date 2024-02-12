@@ -53,44 +53,58 @@ char *trim_quotes(t_tokens **tokens)
     return (*tokens)->cmd;
 }
 
-t_cmd *parse_exec(t_tokens **tokens)
+int get_arg_count(t_tokens **tokens)
 {
     t_tokens *tmp;
-    t_exec *exec;
-    t_cmd *cmd;
-    int i;
+    int c;
 
     tmp = *tokens;
-    i = 0;
-    cmd = create_exec();
-    exec = (t_exec *)cmd;
+    c = 0;
     while (tmp)
     {
         if (tmp->type == PIPE || tmp->type == REDIR)
             break;
         tmp = tmp->next;
-        exec->argc++;
+        c++;
     }
-    if (exec->argc)
-    {
-        exec->argv = malloc(sizeof(char *) * (exec->argc + 1));
-        while ((*tokens))
-        {
-            if ((*tokens)->type == PIPE_CMD)
-                break;
-            else if ((*tokens)->type == REDIR)
-                cmd = parse_redirs(cmd, tokens);
-            else
-            {
-                exec->argv[i] = trim_quotes(tokens);
+    return (c);
+}
 
-                i++;
-                remove_tokens(tokens, 1);
-            }
+void get_arg_value(t_cmd *cmd, t_tokens **tokens)
+{
+    t_exec *exec;
+    int i;
+
+    i = 0;
+    exec = (t_exec *)cmd;
+    exec->argv = malloc(sizeof(char *) * (exec->argc + 1));
+    while ((*tokens))
+    {
+        if ((*tokens)->type == PIPE_CMD)
+            break;
+        else if ((*tokens)->type == REDIR)
+            cmd = parse_redirs(cmd, tokens);
+        else
+        {
+            exec->argv[i] = trim_quotes(tokens);
+            i++;
+            remove_tokens(tokens, 1);
         }
-        exec->argv[i] = NULL;
-        exec->is_builtin = cmd_is_builtin(exec->argv[0]);
     }
+    exec->argv[i] = NULL;
+    exec->is_builtin = cmd_is_builtin(exec->argv[0]);
+}
+
+t_cmd *parse_exec(t_tokens **tokens)
+{
+    t_exec *exec;
+    t_cmd *cmd;
+
+    cmd = create_exec();
+    exec = (t_exec *)cmd;
+    exec->argc = get_arg_count(tokens);
+    if (exec->argc)
+        get_arg_value(cmd, tokens);
     return cmd;
 }
 
