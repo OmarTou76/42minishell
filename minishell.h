@@ -108,6 +108,10 @@ t_cmd *create_pipe(t_cmd *left, t_cmd *right);
 t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd);
 t_cmd *parse_tokens(t_tokens **tokens);
 
+t_cmd *stdout_redirs(t_cmd *cmd, t_tokens **tokens);
+t_cmd *stdin_redirs(t_cmd *cmd, t_tokens **tokens);
+t_cmd *parse_redirs(t_cmd *cmd, t_tokens **tokens);
+
 int cmd_is_builtin(char *cmd);
 void run_builtin(t_exec *cmd, char **envp);
 
