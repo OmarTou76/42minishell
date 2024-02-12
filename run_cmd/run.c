@@ -34,6 +34,7 @@ void run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
     close(p[1]);
     exec_cmd_by_type(p_cmd->left, envp);
 }
+
 void run_right_cmd(t_pipe *p_cmd, int p[2], char **envp)
 {
     close(STDIN_FILENO);

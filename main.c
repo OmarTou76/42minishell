@@ -64,13 +64,13 @@ int main(int argc, char const *argv[], char **envp)
         if (ft_strncmp(cmd, "exit", 4) == 0)
             break;
         get_token_list(cmd, &tokens);
-        // print_tokens(tokens);
-        if (ft_strncmp(tokens->cmd, "cd", 2) == 0)
+        print_tokens(tokens);
+        if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
         {
             if (chdir(trim_quotes(&tokens->next)) < 0)
                 perror("chdir");
         }
-        else
+        else if (tokens)
         {
             cmds = NULL;
             cmds = parse_tokens(&tokens);
