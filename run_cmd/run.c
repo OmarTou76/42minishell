@@ -61,7 +61,6 @@ void save_heredoc(t_redirs *cmd, char **envp)
 {
     int fd;
     char *line;
-    int i;
     (void)envp;
 
     fd = open("__tmp_file__", O_WRONLY | O_APPEND | O_CREAT, 0777);
@@ -69,13 +68,11 @@ void save_heredoc(t_redirs *cmd, char **envp)
     {
         line = readline("heredoc>");
         if (ft_strncmp(line, cmd->filename, ft_strlen(line)) == 0)
-            break;
-        i = 0;
-        while (line[i])
         {
-            write(fd, &line[i], 1);
-            i++;
+            free(line);
+            break;
         }
+        write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);
     }
