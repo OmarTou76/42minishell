@@ -68,6 +68,7 @@ typedef struct s_redirs
     int fd;
     int mode;
     char *filename;
+    int is_here_doc;
 } t_redirs;
 
 // DEBUGGER
@@ -83,6 +84,7 @@ char *strchrs(char *s, char *cs);
 char *ft_strndup(char *s, int len);
 int ft_strlen(char *s);
 int ft_strncmp(const char *s1, const char *s2, size_t n);
+int ft_strcmp(const char *s1, const char *s2);
 char **ft_split(char *s, char c);
 size_t ft_strlcpy(char *dst, const char *src, size_t size);
 

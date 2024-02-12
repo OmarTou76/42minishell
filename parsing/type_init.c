@@ -10,6 +10,7 @@ t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 	redirs->fd = fd;
 	redirs->filename = filename;
 	redirs->mode = mode;
+	redirs->is_here_doc = 0;
 	return ((t_cmd *)redirs);
 }
 

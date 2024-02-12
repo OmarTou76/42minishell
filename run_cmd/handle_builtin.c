@@ -66,7 +66,6 @@ void run_builtin(t_exec *cmd, char **envp)
     if (exec_builtin != NULL)
     {
         exec_builtin(cmd, envp);
-        exit(0);
     }
     else
         printf("%s doesn't exist yet\n", cmd->argv[0]);

@@ -46,13 +46,14 @@ int main(int argc, char const *argv[], char **envp)
 {
     (void)argc;
     (void)argv;
+    (void)envp;
     t_tokens *tokens;
     char *cmd;
     t_cmd *cmds;
 
     while (1)
     {
-        listen_signals();
+        // listen_signals();
         cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
         if (!ft_strlen(cmd))
         {

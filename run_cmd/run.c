@@ -23,6 +23,7 @@ void run_exec(t_cmd *c, char **envp)
     }
     else
         run_builtin(e_cmd, envp);
+    exit(0);
 }
 
 void run_pipe(t_cmd *cmd, char **envp)
@@ -51,8 +52,36 @@ void run_pipe(t_cmd *cmd, char **envp)
     }
     close(p[0]);
     close(p[1]);
-    wait(0);
-    wait(0);
+    wait(NULL);
+    wait(NULL);
+    exit(0);
+}
+
+void save_heredoc(t_redirs *cmd, char **envp)
+{
+    int fd;
+    char *line;
+    int i;
+    (void)envp;
+
+    fd = open("__tmp_file__", O_WRONLY | O_APPEND | O_CREAT, 0777);
+    while (1)
+    {
+        line = readline("heredoc>");
+        if (ft_strncmp(line, cmd->filename, ft_strlen(line)) == 0)
+            break;
+        i = 0;
+        while (line[i])
+        {
+            write(fd, &line[i], 1);
+            i++;
+        }
+        write(fd, "\n", 1);
+        free(line);
+    }
+    free(cmd->filename);
+    cmd->filename = ft_strndup("__tmp_file__", ft_strlen("__tmp_file__"));
+    close(fd);
 }
 
 void run_redirs(t_cmd *c, char **envp)
@@ -60,12 +89,16 @@ void run_redirs(t_cmd *c, char **envp)
     t_redirs *cmd;
 
     cmd = (t_redirs *)c;
+    if (cmd->is_here_doc)
+        save_heredoc(cmd, envp);
     close(cmd->fd);
-    if (open(cmd->filename, cmd->mode) < 0)
+    if (open(cmd->filename, cmd->mode, 0777) < 0)
     {
         printf("%s, ", cmd->filename);
         exit_on_error("No such file");
     };
+    if (cmd->is_here_doc)
+        unlink(cmd->filename);
     exec_cmd_by_type(cmd->cmd, envp);
 }
 
