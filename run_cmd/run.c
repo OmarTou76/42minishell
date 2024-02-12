@@ -26,6 +26,23 @@ void run_exec(t_cmd *c, char **envp)
     exit(0);
 }
 
+void run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
+{
+    close(STDOUT_FILENO);
+    dup(p[1]);
+    close(p[0]);
+    close(p[1]);
+    exec_cmd_by_type(p_cmd->left, envp);
+}
+void run_right_cmd(t_pipe *p_cmd, int p[2], char **envp)
+{
+    close(STDIN_FILENO);
+    dup(p[0]);
+    close(p[0]);
+    close(p[1]);
+    exec_cmd_by_type(p_cmd->right, envp);
+}
+
 void run_pipe(t_cmd *cmd, char **envp)
 {
     t_pipe *p_cmd;
@@ -35,21 +52,9 @@ void run_pipe(t_cmd *cmd, char **envp)
     if (pipe(p) < 0)
         exit_on_error("Pipe function");
     if (fork() == 0)
-    {
-        close(STDOUT_FILENO);
-        dup(p[1]);
-        close(p[0]);
-        close(p[1]);
-        exec_cmd_by_type(p_cmd->left, envp);
-    }
+        run_left_cmd(p_cmd, p, envp);
     if (fork() == 0)
-    {
-        close(STDIN_FILENO);
-        dup(p[0]);
-        close(p[0]);
-        close(p[1]);
-        exec_cmd_by_type(p_cmd->right, envp);
-    }
+        run_right_cmd(p_cmd, p, envp);
     close(p[0]);
     close(p[1]);
     wait(NULL);
