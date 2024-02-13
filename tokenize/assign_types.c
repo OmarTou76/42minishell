@@ -8,12 +8,14 @@ int handle_pipe(t_tokens **tokens, char *cmd, int *i)
     token = NULL;
     if (cmd[*i] == '|')
     {
+        if (cmd[*i + 1] == cmd[*i])
+            return (-1);
         tok = ft_strndup(cmd + (*i), 1);
         if (!tok)
-            perror("Error on malloc\n");
+            return (-1);
         token = create_token(tok, PIPE);
         if (!token)
-            perror("Error on malloc\n");
+            return (-1);
         append_token(tokens, token);
         (*i)++;
     }
@@ -52,7 +54,7 @@ int handle_text(t_tokens **tokens, char *cmd, int *i)
 
     str = cmd + (*i);
     len = 0;
-    while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len], QUOTES) && !is_charset(str[len], "<>|"))
+    while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len], QUOTES) && !is_charset(str[len], "<>|()"))
         len++;
     if (len)
     {
