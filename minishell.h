@@ -10,7 +10,6 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-
 #include "string.h"
 
 #define SPACES " \n\t\r"
@@ -77,8 +76,8 @@ void print_args(t_exec *exc);
 void print_type(t_type type);
 void print_cmd(t_cmd *cmd);
 
+// UTILS
 void exit_on_error(char *s);
-
 int is_charset(char c, char *cs);
 char *strchrs(char *s, char *cs);
 char *ft_strndup(char *s, int len);
@@ -88,30 +87,40 @@ int ft_strcmp(const char *s1, const char *s2);
 char **ft_split(char *s, char c);
 size_t ft_strlcpy(char *dst, const char *src, size_t size);
 
+// LIST UTILS
 t_tokens *create_token(char *token, t_tok_type TYPE);
 void append_token(t_tokens **list, t_tokens *new);
 void remove_tokens(t_tokens **tokens, size_t nb_to_remove);
+void free_tokens(t_tokens *tokens);
 
-int get_quoted_len(char *str, char quote);
-
+// LEXER
 int handle_pipe(t_tokens **tokens, char *cmd, int *i);
 int handle_bracket(t_tokens **tokens, char *cmd, int *i);
 int handle_text(t_tokens **tokens, char *cmd, int *i);
 int handle_quotes(t_tokens **tokens, char *cmd, int *i);
 int handle_redir(t_tokens **tokens, char *cmd, int *i);
 
-void get_token_list(char *usr_cmd, t_tokens **tokens);
 char *trim_quotes(t_tokens **tokens);
+int get_quoted_len(char *str, char quote);
+int get_token_list(char *usr_cmd, t_tokens **tokens);
 
+// PARSING
 t_cmd *create_exec(void);
-t_cmd *create_pipe(t_cmd *left, t_cmd *right);
 t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd);
-t_cmd *parse_tokens(t_tokens **tokens);
+t_cmd *create_pipe(t_cmd *left, t_cmd *right);
 
 t_cmd *stdout_redirs(t_cmd *cmd, t_tokens **tokens);
 t_cmd *stdin_redirs(t_cmd *cmd, t_tokens **tokens);
 t_cmd *parse_redirs(t_cmd *cmd, t_tokens **tokens);
 
+int get_arg_count(t_tokens **tokens);
+void get_arg_value(t_cmd **cmd, t_tokens **tokens);
+t_cmd *parse_exec(t_tokens **tokens);
+
+t_cmd *parse_parentheses(t_tokens **tokens);
+t_cmd *parse_tokens(t_tokens **tokens);
+
+// RUN COMMAND
 int cmd_is_builtin(char *cmd);
 void run_builtin(t_exec *cmd, char **envp);
 

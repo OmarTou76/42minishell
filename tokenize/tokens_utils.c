@@ -1,5 +1,13 @@
 #include "../minishell.h"
 
+char *trim_quotes(t_tokens **tokens)
+{
+    if ((*tokens)->type != SINGLE_QUOTE && (*tokens)->type != DOUBLE_QUOTE)
+        return (*tokens)->cmd;
+    ft_strlcpy((*tokens)->cmd, (*tokens)->cmd + 1, ft_strlen((*tokens)->cmd) - 1);
+    return (*tokens)->cmd;
+}
+
 int get_quoted_len(char *str, char quote)
 {
     int len;
@@ -13,7 +21,7 @@ int get_quoted_len(char *str, char quote)
     return (len);
 }
 
-void get_token_list(char *usr_cmd, t_tokens **tokens)
+int get_token_list(char *usr_cmd, t_tokens **tokens)
 {
     int i;
 
@@ -35,5 +43,10 @@ void get_token_list(char *usr_cmd, t_tokens **tokens)
             i++;
     }
     if (usr_cmd[i])
-        printf("Error on parsing at %c\n", usr_cmd[i]);
+    {
+        printf("Error on parsing at %c (%d)\n", usr_cmd[i], i);
+        free_tokens(*tokens);
+        return (-1);
+    }
+    return (0);
 }

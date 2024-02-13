@@ -40,3 +40,19 @@ void remove_tokens(t_tokens **tokens, size_t nb_to_remove)
         i++;
     }
 }
+
+void free_tokens(t_tokens *tokens)
+{
+    t_tokens *tmp;
+    t_tokens *token;
+
+    token = tokens;
+    while (token)
+    {
+        tmp = token;
+        free(token->cmd);
+        token = token->next;
+        free(tmp);
+    }
+    tokens = NULL;
+}

@@ -36,11 +36,14 @@ t_cmd *parse_redirs(t_cmd *cmd, t_tokens **tokens)
     t_tokens *token;
 
     token = (*tokens);
-    if (!token->next)
-        exit_on_error("Missing file name after redirs");
-    if (!ft_strcmp(token->cmd, ">") || !ft_strcmp(token->cmd, ">>"))
-        cmd = stdout_redirs(cmd, tokens);
-    else if (!ft_strcmp(token->cmd, "<") || !ft_strcmp(token->cmd, "<<"))
-        cmd = stdin_redirs(cmd, tokens);
+    if (token && token->type == REDIR)
+    {
+        if (!token->next)
+            exit_on_error("Missing file name after redirs");
+        if (!ft_strcmp(token->cmd, ">") || !ft_strcmp(token->cmd, ">>"))
+            cmd = stdout_redirs(cmd, tokens);
+        else if (!ft_strcmp(token->cmd, "<") || !ft_strcmp(token->cmd, "<<"))
+            cmd = stdin_redirs(cmd, tokens);
+    }
     return cmd;
 }

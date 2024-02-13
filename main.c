@@ -1,25 +1,9 @@
 #include "minishell.h"
 
-void free_tokens(t_tokens *tokens)
-{
-    t_tokens *tmp;
-    t_tokens *token;
-
-    token = tokens;
-    while (token)
-    {
-        tmp = token;
-        free(token->cmd);
-        token = token->next;
-        free(tmp);
-    }
-    tokens = NULL;
-}
-
 void exit_on_error(char *s)
 {
     printf("%s\n", s);
-    exit(1);
+    exit(0);
 }
 
 void signal_handler(int sig, struct __siginfo *info, void *additional)
@@ -63,8 +47,9 @@ int main(int argc, char const *argv[], char **envp)
         add_history(cmd);
         if (ft_strncmp(cmd, "exit", 4) == 0)
             break;
-        get_token_list(cmd, &tokens);
-        // print_tokens(tokens);
+        if (get_token_list(cmd, &tokens))
+            continue;
+        print_tokens(tokens);
         if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
         {
             if (chdir(trim_quotes(&tokens->next)) < 0)
@@ -74,7 +59,7 @@ int main(int argc, char const *argv[], char **envp)
         {
             cmds = NULL;
             cmds = parse_tokens(&tokens);
-            // print_cmd(cmds);
+            print_cmd(cmds);
             runcmd(cmds, envp);
             free_cmds(cmds);
         }
