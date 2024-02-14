@@ -31,7 +31,7 @@ int get_token_list(char *usr_cmd, t_tokens **tokens)
     {
         if (handle_pipe(tokens, usr_cmd, &i))
             break;
-        else if (handle_bracket(tokens, usr_cmd, &i))
+        else if (handle_parentheses(tokens, usr_cmd, &i))
             break;
         else if (handle_redir(tokens, usr_cmd, &i))
             break;
@@ -45,6 +45,12 @@ int get_token_list(char *usr_cmd, t_tokens **tokens)
     if (usr_cmd[i])
     {
         printf("Error on parsing at %c (%d)\n", usr_cmd[i], i);
+        free_tokens(*tokens);
+        return (-1);
+    }
+    else if (tokens_have_conflicts(tokens))
+    {
+        printf("Parentheses error\n");
         free_tokens(*tokens);
         return (-1);
     }

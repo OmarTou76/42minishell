@@ -22,7 +22,7 @@ int handle_pipe(t_tokens **tokens, char *cmd, int *i)
     return (0);
 }
 
-int handle_bracket(t_tokens **tokens, char *cmd, int *i)
+int handle_parentheses(t_tokens **tokens, char *cmd, int *i)
 {
     t_tokens *token;
     char *tok;

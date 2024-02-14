@@ -95,7 +95,7 @@ void free_tokens(t_tokens *tokens);
 
 // LEXER
 int handle_pipe(t_tokens **tokens, char *cmd, int *i);
-int handle_bracket(t_tokens **tokens, char *cmd, int *i);
+int handle_parentheses(t_tokens **tokens, char *cmd, int *i);
 int handle_text(t_tokens **tokens, char *cmd, int *i);
 int handle_quotes(t_tokens **tokens, char *cmd, int *i);
 int handle_redir(t_tokens **tokens, char *cmd, int *i);
@@ -103,6 +103,8 @@ int handle_redir(t_tokens **tokens, char *cmd, int *i);
 char *trim_quotes(t_tokens **tokens);
 int get_quoted_len(char *str, char quote);
 int get_token_list(char *usr_cmd, t_tokens **tokens);
+
+int tokens_have_conflicts(t_tokens **tokens);
 
 // PARSING
 t_cmd *create_exec(void);
