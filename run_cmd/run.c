@@ -73,7 +73,7 @@ void save_heredoc(t_redirs *cmd, char **envp)
     while (1)
     {
         line = readline("heredoc> ");
-        if (ft_strncmp(line, cmd->filename, ft_strlen(line)) == 0)
+        if (ft_strcmp(line, cmd->filename) == 0)
         {
             free(line);
             break;
