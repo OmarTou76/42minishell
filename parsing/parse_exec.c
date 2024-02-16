@@ -33,7 +33,7 @@ void get_arg_value(t_cmd **cmd, t_tokens **tokens)
             *cmd = parse_redirs(*cmd, tokens);
         else
         {
-            exec->argv[i] = trim_quotes(tokens);
+            exec->argv[i] = (*tokens)->cmd;
             i++;
             remove_tokens(tokens, 1);
         }

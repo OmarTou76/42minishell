@@ -85,7 +85,7 @@ int handle_quotes(t_tokens **tokens, char *cmd, int *i)
         return (-1);
     if (len)
     {
-        tok = ft_strndup(cmd + (*i), len);
+        tok = ft_strndup(cmd + (*i) + 1, len - 2);
         if (quote == '\'')
             token = create_token(tok, SINGLE_QUOTE);
         else
