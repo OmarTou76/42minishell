@@ -23,7 +23,6 @@ void run_exec(t_cmd *c, char **envp)
     }
     else
         run_builtin(e_cmd, envp);
-    exit(0);
 }
 
 void run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
@@ -63,17 +62,20 @@ void run_pipe(t_cmd *cmd, char **envp)
     exit(0);
 }
 
-void save_heredoc(t_redirs *cmd, char **envp)
+void save_heredoc(t_redirs *cmd, char **envp, char *tmp_file)
 {
     int fd;
     char *line;
     (void)envp;
 
-    fd = open("__tmp_file__", O_WRONLY | O_APPEND | O_CREAT, 0777);
+    fd = open(tmp_file, O_WRONLY | O_APPEND | O_CREAT, 0777);
     while (1)
     {
-        line = readline("heredoc> ");
-        if (ft_strcmp(line, cmd->filename) == 0)
+        // write(STDOUT_FILENO, "heredoc> ", 10);
+        line = readline("heredoc> "); // get_next_line(0);
+        /* if (ft_strlen(line) > 0)
+            line[ft_strlen(line) - 1] = 0; */
+        if (line && ft_strcmp(line, cmd->filename) == 0)
         {
             free(line);
             break;
@@ -83,17 +85,72 @@ void save_heredoc(t_redirs *cmd, char **envp)
         free(line);
     }
     free(cmd->filename);
-    cmd->filename = ft_strndup("__tmp_file__", ft_strlen("__tmp_file__"));
+    cmd->filename = ft_strndup(tmp_file, ft_strlen(tmp_file));
     close(fd);
+}
+
+void run_sub_redirs(t_cmd *c, char **envp)
+{
+    t_redirs *cmd;
+
+    cmd = (t_redirs *)c;
+
+    if (cmd->is_here_doc)
+        save_heredoc(cmd, envp, "__fake__");
+    if (open(cmd->filename, cmd->mode, 0777) < 0)
+    {
+        printf("%s, ", cmd->filename);
+        exit_on_error("No such file");
+    };
+    if (cmd->is_here_doc)
+        unlink(cmd->filename);
+    if (cmd->cmd->type == REDIR_CMD)
+        run_sub_redirs(cmd->cmd, envp);
+    else
+        exec_cmd_by_type(cmd->cmd, envp);
+}
+
+void run_multiple_heredoc(t_redirs *cmd, char **envp)
+{
+    t_redirs *next;
+    if (cmd->cmd->type == REDIR_CMD)
+    {
+        next = (t_redirs *)cmd->cmd;
+        if (next->is_here_doc)
+            run_multiple_heredoc(next, envp);
+    }
+    save_heredoc(cmd, envp, "__fake__");
+    unlink("__fake__");
+}
+
+void update_cmd(t_cmd **cmd)
+{
+    t_redirs *init;
+    t_redirs *tmp;
+
+    init = (t_redirs *)*cmd;
+    tmp = (t_redirs *)*cmd;
+    while (tmp->type == REDIR_CMD)
+        tmp = (t_redirs *)tmp->cmd;
+    init->cmd = (t_cmd *)tmp;
 }
 
 void run_redirs(t_cmd *c, char **envp)
 {
     t_redirs *cmd;
+    t_redirs *next;
 
     cmd = (t_redirs *)c;
     if (cmd->is_here_doc)
-        save_heredoc(cmd, envp);
+    {
+        next = (t_redirs *)cmd->cmd;
+        if (cmd->cmd->type == REDIR_CMD && next->is_here_doc)
+        {
+            run_multiple_heredoc(next, envp);
+            update_cmd(&c);
+        }
+        save_heredoc(cmd, envp, "__tmp__");
+    }
     close(cmd->fd);
     if (open(cmd->filename, cmd->mode, 0777) < 0)
     {
@@ -102,7 +159,10 @@ void run_redirs(t_cmd *c, char **envp)
     };
     if (cmd->is_here_doc)
         unlink(cmd->filename);
-    exec_cmd_by_type(cmd->cmd, envp);
+    if (cmd->cmd->type == REDIR_CMD)
+        run_sub_redirs(cmd->cmd, envp);
+    else
+        exec_cmd_by_type(cmd->cmd, envp);
 }
 
 void exec_cmd_by_type(t_cmd *cmd, char **envp)

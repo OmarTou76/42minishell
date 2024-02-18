@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+void print_redirs(t_redirs *cmd);
+
 void print_args(t_exec *exc)
 {
 	char **argv;
@@ -19,9 +21,24 @@ void print_pipe(t_pipe *p)
 {
 	t_exec *ex;
 	t_pipe *sp;
+	t_redirs *r;
 
-	ex = (t_exec *)p->left;
-	print_args(ex);
+	if (p->left->type == EXEC)
+	{
+		ex = (t_exec *)p->left;
+		print_args(ex);
+	}
+	else if (p->left->type == PIPE_CMD)
+	{
+		sp = (t_pipe *)p->left;
+		print_pipe(sp);
+	}
+	else if (p->left->type == REDIR_CMD)
+	{
+		r = (t_redirs *)p->left;
+		print_redirs(r);
+	}
+	printf("----\n");
 	if (p->right->type == EXEC)
 	{
 		ex = (t_exec *)p->right;
@@ -32,15 +49,23 @@ void print_pipe(t_pipe *p)
 		sp = (t_pipe *)p->right;
 		print_pipe(sp);
 	}
+	else if (p->right->type == REDIR_CMD)
+	{
+		r = (t_redirs *)p->right;
+		print_redirs(r);
+	}
 }
 
 void print_redirs(t_redirs *cmd)
 {
-	print_cmd(cmd->cmd);
+	printf("REDIRS\n");
 	if (cmd->is_here_doc)
 		printf("Stop with: %s\n", cmd->filename);
 	else
 		printf("to file: %s\n", cmd->filename);
+	if (cmd->cmd->type == REDIR_CMD)
+		printf("(is sub redirs)\n");
+	print_cmd(cmd->cmd);
 }
 
 void print_cmd(t_cmd *cmd)
@@ -48,6 +73,7 @@ void print_cmd(t_cmd *cmd)
 	t_pipe *p;
 	t_exec *e;
 	t_redirs *r;
+	print_type(cmd->type);
 
 	if (cmd->type == EXEC)
 	{

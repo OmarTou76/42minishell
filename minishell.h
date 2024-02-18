@@ -31,6 +31,7 @@ typedef enum s_type
     EXEC,
     PIPE_CMD,
     REDIR_CMD,
+    SUB_REDIR_CMD,
 } t_type;
 
 typedef struct s_tokens
@@ -92,6 +93,7 @@ t_tokens *create_token(char *token, t_tok_type TYPE);
 void append_token(t_tokens **list, t_tokens *new);
 void remove_tokens(t_tokens **tokens, size_t nb_to_remove);
 void free_tokens(t_tokens *tokens);
+char *get_next_line(int fd);
 
 // LEXER
 int handle_pipe(t_tokens **tokens, char *cmd, int *i);

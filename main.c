@@ -49,7 +49,7 @@ int main(int argc, char const *argv[], char **envp)
             break;
         if (get_token_list(cmd, &tokens))
             continue;
-        print_tokens(tokens);
+        // print_tokens(tokens);
         if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
         {
             if (chdir(trim_quotes(&tokens->next)) < 0)
@@ -59,7 +59,7 @@ int main(int argc, char const *argv[], char **envp)
         {
             cmds = NULL;
             cmds = parse_tokens(&tokens);
-            print_cmd(cmds);
+            // print_cmd(cmds);
             runcmd(cmds, envp);
             free_cmds(cmds);
         }
