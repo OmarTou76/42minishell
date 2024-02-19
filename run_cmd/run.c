@@ -1,6 +1,8 @@
 #include "../minishell.h"
 
+void run_redirs(t_cmd *c, char **envp, int run_next);
 void exec_cmd_by_type(t_cmd *cmd, char **envp);
+void update_cmd(t_cmd **cmd);
 
 void run_exec(t_cmd *c, char **envp)
 {
@@ -46,9 +48,17 @@ void run_right_cmd(t_pipe *p_cmd, int p[2], char **envp)
 void run_pipe(t_cmd *cmd, char **envp)
 {
     t_pipe *p_cmd;
+    t_redirs *r_cmd;
     int p[2];
 
     p_cmd = (t_pipe *)cmd;
+    r_cmd = (t_redirs *)p_cmd->left;
+    if (p_cmd->left->type == REDIR_CMD && r_cmd->is_here_doc)
+    {
+        run_redirs((t_cmd *)r_cmd, envp, 0);
+        update_cmd(&p_cmd->left);
+        p_cmd->left = r_cmd->cmd;
+    }
     if (pipe(p) < 0)
         exit_on_error("Pipe function");
     if (fork() == 0)
@@ -135,7 +145,7 @@ void update_cmd(t_cmd **cmd)
     init->cmd = (t_cmd *)tmp;
 }
 
-void run_redirs(t_cmd *c, char **envp)
+void run_redirs(t_cmd *c, char **envp, int run_next)
 {
     t_redirs *cmd;
     t_redirs *next;
@@ -159,10 +169,13 @@ void run_redirs(t_cmd *c, char **envp)
     };
     if (cmd->is_here_doc)
         unlink(cmd->filename);
-    if (cmd->cmd->type == REDIR_CMD)
-        run_sub_redirs(cmd->cmd, envp);
-    else
-        exec_cmd_by_type(cmd->cmd, envp);
+    if (run_next)
+    {
+        if (cmd->cmd->type == REDIR_CMD)
+            run_sub_redirs(cmd->cmd, envp);
+        else
+            exec_cmd_by_type(cmd->cmd, envp);
+    }
 }
 
 void exec_cmd_by_type(t_cmd *cmd, char **envp)
@@ -172,7 +185,7 @@ void exec_cmd_by_type(t_cmd *cmd, char **envp)
     else if (cmd->type == PIPE_CMD)
         run_pipe(cmd, envp);
     else if (cmd->type == REDIR_CMD)
-        run_redirs(cmd, envp);
+        run_redirs(cmd, envp, 1);
 }
 
 void runcmd(t_cmd *cmd, char **envp)
