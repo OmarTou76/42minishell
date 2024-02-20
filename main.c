@@ -6,15 +6,15 @@ void exit_on_error(char *s)
     exit(0);
 }
 
-void signal_handler(int sig, struct __siginfo *info, void *additional)
+/* void signal_handler(int sig, struct __siginfo *info, void *additional)
 {
     (void)additional;
     (void)info;
     if (sig == SIGINT)
         write(1, "(Signal ctrl-c reçu)", 22);
-}
+} */
 
-void listen_signals(void)
+/* void listen_signals(void)
 {
     struct sigaction sa;
 
@@ -24,7 +24,7 @@ void listen_signals(void)
     sigemptyset(&sa.sa_mask);
     sigaddset(&sa.sa_mask, SIGINT);
     sigaction(SIGINT, &sa, NULL);
-}
+} */
 
 int main(int argc, char const *argv[], char **envp)
 {

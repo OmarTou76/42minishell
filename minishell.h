@@ -129,10 +129,17 @@ t_cmd				*parse_tokens(t_tokens **tokens);
 int					cmd_is_builtin(char *cmd);
 void				run_builtin(t_exec *cmd, char **envp);
 
+void				run_redirs(t_cmd *c, char **envp, int run_next);
+void				update_cmd(t_cmd **cmd);
+void				run_multiple_heredoc(t_redirs *cmd, char **envp);
+void				run_sub_redirs(t_cmd *c, char **envp);
+void				save_heredoc(t_redirs *cmd, char **envp, char *tmp_file);
+
 int					can_exec(char *filepath);
 char				*get_file_path(char *execname, char **envp);
 void				get_env_var_from_args(t_exec *e_cmd, char **envp);
 
+void				exec_cmd_by_type(t_cmd *cmd, char **envp);
 void				runcmd(t_cmd *cmd, char **envp);
 void				free_redirs(t_redirs *cmd);
 void				free_cmds(t_cmd *cmd);
