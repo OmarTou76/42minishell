@@ -16,35 +16,39 @@ static void	free_exec(t_exec *cmd)
 	free(cmd);
 }
 
-static void	free_redirs(t_redirs *cmd)
+void	free_redirs(t_redirs *cmd)
 {
 	free_cmds(cmd->cmd);
 	free(cmd->filename);
 	free(cmd);
 }
-
-static void	free_pipe(t_pipe *p)
+static void	free_pipe(t_pipe *p);
+static void free_side_pipe(t_cmd *cmd)
 {
 	t_exec		*ex;
 	t_pipe		*sp;
 	t_redirs	*red;
 
-	ex = (t_exec *)p->left;
-	free_exec(ex);
-	if (p->right->type == EXEC)
+	if (cmd->type == EXEC)
 	{
-		ex = (t_exec *)p->right;
+		ex = (t_exec *)cmd;
 		free_exec(ex);
 	}
-	else if (p->right->type == PIPE_CMD)
+	else if (cmd->type == PIPE_CMD)
 	{
-		sp = (t_pipe *)p->right;
+		sp = (t_pipe *)cmd;
 		free_pipe(sp);
-	} else if (p->right->type == REDIR_CMD)
+	} else if (cmd->type == REDIR_CMD)
 	{
-		red = (t_redirs *)p->right;
+		red = (t_redirs *)cmd;
 		free_redirs(red);
 	}
+}
+
+static void	free_pipe(t_pipe *p)
+{
+	free_side_pipe(p->left);
+	free_side_pipe(p->right);
 	free(p);
 }
 
