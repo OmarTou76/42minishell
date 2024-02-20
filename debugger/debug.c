@@ -1,11 +1,11 @@
 #include "../minishell.h"
 
-void print_redirs(t_redirs *cmd);
+void	print_redirs(t_redirs *cmd);
 
-void print_args(t_exec *exc)
+void	print_args(t_exec *exc)
 {
-	char **argv;
-	int i;
+	char	**argv;
+	int		i;
 
 	argv = exc->argv;
 	i = 0;
@@ -17,11 +17,11 @@ void print_args(t_exec *exc)
 	}
 }
 
-void print_pipe(t_pipe *p)
+void	print_pipe(t_pipe *p)
 {
-	t_exec *ex;
-	t_pipe *sp;
-	t_redirs *r;
+	t_exec		*ex;
+	t_pipe		*sp;
+	t_redirs	*r;
 
 	if (p->left->type == EXEC)
 	{
@@ -56,7 +56,7 @@ void print_pipe(t_pipe *p)
 	}
 }
 
-void print_redirs(t_redirs *cmd)
+void	print_redirs(t_redirs *cmd)
 {
 	printf("REDIRS\n");
 	if (cmd->is_here_doc)
@@ -68,13 +68,13 @@ void print_redirs(t_redirs *cmd)
 	print_cmd(cmd->cmd);
 }
 
-void print_cmd(t_cmd *cmd)
+void	print_cmd(t_cmd *cmd)
 {
-	t_pipe *p;
-	t_exec *e;
-	t_redirs *r;
-	print_type(cmd->type);
+	t_pipe		*p;
+	t_exec		*e;
+	t_redirs	*r;
 
+	print_type(cmd->type);
 	if (cmd->type == EXEC)
 	{
 		e = (t_exec *)cmd;
@@ -92,31 +92,31 @@ void print_cmd(t_cmd *cmd)
 	}
 }
 
-void print_tokens(t_tokens *tokens)
+void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("[%s] - [%d] \n", tokens->cmd, tokens->type);
+		printf("[%s] - [%d] - [%s]\n", tokens->cmd, tokens->type, tokens->env_var ? tokens->env_var : "");
 		tokens = tokens->next;
 	}
 }
 
-void print_type(t_type type)
+void	print_type(t_type type)
 {
 	switch (type)
 	{
 	case PIPE_CMD:
 		printf("PIPE\n");
-		break;
+		break ;
 	case REDIR_CMD:
 		printf("REDIR\n");
-		break;
+		break ;
 	case EXEC:
 		printf("EXEC CMD\n");
-		break;
+		break ;
 
 	default:
 		printf("CMD NOT FOUND\n");
-		break;
+		break ;
 	}
 }

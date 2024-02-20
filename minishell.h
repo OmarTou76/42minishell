@@ -23,7 +23,8 @@ typedef enum s_tok_type
 	OPEN_BRACKET,
 	CLOSE_BRACKET,
 	SINGLE_QUOTE,
-	DOUBLE_QUOTE
+	DOUBLE_QUOTE,
+	SPACE_SEPARATOR,
 }					t_tok_type;
 
 typedef enum s_type
@@ -38,6 +39,7 @@ typedef struct s_tokens
 {
 	char			*cmd;
 	t_tok_type		type;
+	char			*env_var;
 	struct s_tokens	*next;
 }					t_tokens;
 
@@ -79,6 +81,7 @@ void				print_cmd(t_cmd *cmd);
 
 // UTILS
 void				exit_on_error(char *s);
+int					is_alnum(char c);
 int					is_charset(char c, char *cs);
 char				*strchrs(char *s, char *cs);
 char				*ft_strndup(char *s, int len);
@@ -93,6 +96,7 @@ t_tokens			*create_token(char *token, t_tok_type TYPE);
 void				append_token(t_tokens **list, t_tokens *new);
 void				remove_tokens(t_tokens **tokens, size_t nb_to_remove);
 void				free_tokens(t_tokens *tokens);
+char				*ft_strjoin(char *s1, char const *s2, size_t len);
 char				*get_next_line(int fd);
 
 // LEXER
@@ -107,6 +111,8 @@ int					get_quoted_len(char *str, char quote);
 int					get_token_list(char *usr_cmd, t_tokens **tokens);
 
 int					tokens_have_conflicts(t_tokens **tokens);
+void				merge_tokens(t_tokens **tokens);
+void				update_tokens(t_tokens **tokens, char **envp);
 
 // PARSING
 t_cmd				*create_exec(void);

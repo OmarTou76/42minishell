@@ -7,6 +7,7 @@ t_tokens *create_token(char *token, t_tok_type TYPE)
     new = malloc(sizeof(t_tokens));
     new->cmd = token;
     new->type = TYPE;
+    new->env_var = NULL;
     new->next = NULL;
     return (new);
 }
