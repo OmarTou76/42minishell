@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-int	handle_pipe(t_tokens **tokens, char *cmd, int *i)
+int handle_pipe(t_tokens **tokens, char *cmd, int *i)
 {
-	t_tokens	*token;
-	char		*tok;
+	t_tokens *token;
+	char *tok;
 
 	token = NULL;
 	if (cmd[*i] == '|')
@@ -22,10 +22,10 @@ int	handle_pipe(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int	handle_parentheses(t_tokens **tokens, char *cmd, int *i)
+int handle_parentheses(t_tokens **tokens, char *cmd, int *i)
 {
-	t_tokens	*token;
-	char		*tok;
+	t_tokens *token;
+	char *tok;
 
 	token = NULL;
 	if (cmd[*i] == '(' || cmd[*i] == ')')
@@ -45,17 +45,16 @@ int	handle_parentheses(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int	handle_text(t_tokens **tokens, char *cmd, int *i)
+int handle_text(t_tokens **tokens, char *cmd, int *i)
 {
-	int			len;
-	char		*str;
-	char		*tok;
-	t_tokens	*token;
+	int len;
+	char *str;
+	char *tok;
+	t_tokens *token;
 
 	str = cmd + (*i);
 	len = 0;
-	while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len],
-			QUOTES) && !is_charset(str[len], "<>|()"))
+	while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len], QUOTES) && !is_charset(str[len], "<>|()"))
 		len++;
 	if (len)
 	{
@@ -72,12 +71,12 @@ int	handle_text(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int	handle_quotes(t_tokens **tokens, char *cmd, int *i)
+int handle_quotes(t_tokens **tokens, char *cmd, int *i)
 {
-	int			len;
-	char		*tok;
-	t_tokens	*token;
-	char		quote;
+	int len;
+	char *tok;
+	t_tokens *token;
+	char quote;
 
 	if (!is_charset(cmd[*i], QUOTES))
 		return (0);
@@ -91,19 +90,21 @@ int	handle_quotes(t_tokens **tokens, char *cmd, int *i)
 		if (quote == '\'')
 			token = create_token(tok, SINGLE_QUOTE);
 		else
+		{
 			token = create_token(tok, DOUBLE_QUOTE);
-        token->env_var = strchrs(token->cmd, "$");
+			token->env_var = strchrs(token->cmd, "$");
+		}
 		append_token(tokens, token);
 		(*i) += len;
 	}
 	return (0);
 }
 
-int	handle_redir(t_tokens **tokens, char *cmd, int *i)
+int handle_redir(t_tokens **tokens, char *cmd, int *i)
 {
-	int			len;
-	char		*tok;
-	t_tokens	*token;
+	int len;
+	char *tok;
+	t_tokens *token;
 
 	len = 0;
 	while (cmd[(*i) + len] >= '0' && cmd[(*i) + len] <= '9')
