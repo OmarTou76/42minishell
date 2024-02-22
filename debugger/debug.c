@@ -7,6 +7,7 @@ void	print_args(t_exec *exc)
 	char	**argv;
 	int		i;
 
+	
 	argv = exc->argv;
 	i = 0;
 	printf("builtin: %s\n", exc->is_builtin ? "TRUE" : "FALSE");
@@ -58,7 +59,6 @@ void	print_pipe(t_pipe *p)
 
 void	print_redirs(t_redirs *cmd)
 {
-	printf("REDIRS\n");
 	if (cmd->is_here_doc)
 		printf("Stop with: %s\n", cmd->filename);
 	else

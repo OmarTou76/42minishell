@@ -140,7 +140,7 @@ void run_builtin(t_exec *cmd, char **envp);
 void run_redirs(t_cmd *c, char **envp, int run_next);
 void update_cmd(t_cmd **cmd);
 void run_multiple_heredoc(t_redirs *cmd, char **envp);
-void run_sub_redirs(t_cmd *c, char **envp);
+void run_sub_redirs(t_cmd *c, char **envp, int prev_fd);
 void save_heredoc(t_redirs *cmd, char **envp, char *tmp_file);
 
 int can_exec(char *filepath);

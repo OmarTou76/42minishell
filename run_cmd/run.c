@@ -21,7 +21,9 @@ void	run_exec(t_cmd *c, char **envp)
 			free(e_cmd->argv[0]);
 			e_cmd->argv[0] = filepath;
 		}
-		execve(e_cmd->argv[0], e_cmd->argv, envp);
+		if (e_cmd->argc)
+			execve(e_cmd->argv[0], e_cmd->argv, envp);
+		exit(0);
 	}
 	else
 		run_builtin(e_cmd, envp);

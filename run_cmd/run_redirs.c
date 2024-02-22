@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 void	save_heredoc(t_redirs *cmd, char **envp, char *tmp_file)
 {
 	int		fd;
@@ -28,13 +27,15 @@ void	save_heredoc(t_redirs *cmd, char **envp, char *tmp_file)
 	close(fd);
 }
 
-void	run_sub_redirs(t_cmd *c, char **envp)
+void	run_sub_redirs(t_cmd *c, char **envp, int prev_fd)
 {
 	t_redirs	*cmd;
 
 	cmd = (t_redirs *)c;
 	if (cmd->is_here_doc)
 		save_heredoc(cmd, envp, "__fake__");
+	if (prev_fd != cmd->fd)
+		close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
 	{
 		printf("%s, ", cmd->filename);
@@ -43,7 +44,7 @@ void	run_sub_redirs(t_cmd *c, char **envp)
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
 	if (cmd->cmd->type == REDIR_CMD)
-		run_sub_redirs(cmd->cmd, envp);
+		run_sub_redirs(cmd->cmd, envp, cmd->fd);
 	else
 		exec_cmd_by_type(cmd->cmd, envp);
 }
@@ -82,8 +83,8 @@ void	update_cmd(t_cmd **cmd)
 
 void	run_redirs(t_cmd *c, char **envp, int run_next)
 {
-	t_redirs	*cmd;
-	t_redirs	*next;
+	t_redirs *cmd;
+	t_redirs *next;
 
 	cmd = (t_redirs *)c;
 	if (cmd->is_here_doc)
@@ -107,7 +108,7 @@ void	run_redirs(t_cmd *c, char **envp, int run_next)
 	if (run_next)
 	{
 		if (cmd->cmd->type == REDIR_CMD)
-			run_sub_redirs(cmd->cmd, envp);
+			run_sub_redirs(cmd->cmd, envp, cmd->fd);
 		else
 			exec_cmd_by_type(cmd->cmd, envp);
 	}

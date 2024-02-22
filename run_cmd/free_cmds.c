@@ -6,13 +6,16 @@ static void	free_exec(t_exec *cmd)
 	int		i;
 
 	argv = cmd->argv;
-	i = 0;
-	while (argv[i])
+	if (argv)
 	{
-		free(argv[i]);
-		i++;
+		i = 0;
+		while (argv[i])
+		{
+			free(argv[i]);
+			i++;
+		}
+		free(argv);
 	}
-	free(argv);
 	free(cmd);
 }
 
@@ -23,7 +26,7 @@ void	free_redirs(t_redirs *cmd)
 	free(cmd);
 }
 static void	free_pipe(t_pipe *p);
-static void free_side_pipe(t_cmd *cmd)
+static void	free_side_pipe(t_cmd *cmd)
 {
 	t_exec		*ex;
 	t_pipe		*sp;
@@ -38,7 +41,8 @@ static void free_side_pipe(t_cmd *cmd)
 	{
 		sp = (t_pipe *)cmd;
 		free_pipe(sp);
-	} else if (cmd->type == REDIR_CMD)
+	}
+	else if (cmd->type == REDIR_CMD)
 	{
 		red = (t_redirs *)cmd;
 		free_redirs(red);
@@ -51,7 +55,6 @@ static void	free_pipe(t_pipe *p)
 	free_side_pipe(p->right);
 	free(p);
 }
-
 
 void	free_cmds(t_cmd *cmd)
 {
