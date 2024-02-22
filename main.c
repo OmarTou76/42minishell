@@ -1,43 +1,36 @@
 #include "minishell.h"
+int g_status = 0;
 
 void exit_on_error(char *s)
 {
     printf("%s\n", s);
     exit(0);
 }
-
-/* void signal_handler(int sig, struct __siginfo *info, void *additional)
+// REGLER POUR LE HEREDOC
+void handle_sigint(int sig)
 {
-    (void)additional;
-    (void)info;
     if (sig == SIGINT)
-        write(1, "(Signal ctrl-c reçu)", 22);
-} */
-
-/* void listen_signals(void)
-{
-    struct sigaction sa;
-
-    sa.sa_flags = SA_SIGINFO;
-
-    sa.sa_sigaction = &signal_handler;
-    sigemptyset(&sa.sa_mask);
-    sigaddset(&sa.sa_mask, SIGINT);
-    sigaction(SIGINT, &sa, NULL);
-} */
+    {
+        g_status = 130;
+        ioctl(STDIN_FILENO, TIOCSTI, "\n");
+        // rl_replace_line("", 0);
+        /* rl_redisplay();
+        rl_on_new_line(); */
+    }
+}
 
 int main(int argc, char const *argv[], char **envp)
 {
     (void)argc;
     (void)argv;
-    (void)envp;
     t_tokens *tokens;
     char *cmd;
     t_cmd *cmds;
 
     while (1)
     {
-        // listen_signals();
+        // signal(SIGINT, handle_sigint);
+        // signal(SIGQUIT, SIG_IGN);
         cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
         if (!ft_strlen(cmd))
         {
