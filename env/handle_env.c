@@ -107,3 +107,18 @@ int build_var(char **envp, t_list **var_list)
     }
     return (1);
 }
+
+char *search_var(t_list *var_list, char *key)
+{
+    t_var *var;
+
+    while (var_list)
+    {
+        var = (t_var *)var_list->content;
+        if (!ft_strcmp(var->key, key))
+            return (var->data);
+        var_list = var_list->next;
+    }
+    return (NULL);
+}
+

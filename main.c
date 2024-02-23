@@ -44,8 +44,7 @@ int	main(int argc, char const *argv[], char **envp)
 			break ;
 		if (get_token_list(cmd, &tokens))
 			continue ;
-		update_tokens(&tokens, envp);
-		// print_tokens(tokens);
+		update_tokens(&tokens, envp_list);
 		if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
 		{
 			if (chdir(trim_quotes(&tokens->next)) < 0)
