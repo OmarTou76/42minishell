@@ -36,7 +36,7 @@ char *search_var(t_list *var_list, char *key)
     return (NULL);
 }
 
-/*static t_bool build_var(char **envp, t_list **var_list)
+static t_bool build_var(char **envp, t_list **var_list)
 {
     t_var *var;
     t_list *elem;
@@ -63,4 +63,4 @@ char *search_var(t_list *var_list, char *key)
         return (false);
     }
     return (true);
-}*/
+}

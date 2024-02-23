@@ -162,6 +162,7 @@ char *search_var(t_list *var_list, char *key);
 // static t_bool build_var(char **envp, t_list **var_list);
 void *return_and_free(char **envp, int i);
 char **build_env(t_list *env_var);
+static t_bool build_var(char **envp, t_list **var_list);
 
 /* BUILTINS */
 int built_in_echo(int ac, char **av);
