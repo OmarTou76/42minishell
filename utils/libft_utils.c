@@ -25,15 +25,16 @@ char *strchrs(char *s, char *cs)
     return NULL;
 }
 
-int ft_strlen(char *s)
+int	ft_strlen(const char *s)
 {
-    int i;
+	const char	*p;
 
-    i = 0;
-    while (s && s[i])
-        i++;
-    return (i);
+	p = s;
+	while (*p)
+		p++;
+	return (p - s);
 }
+
 
 char *ft_strndup(char *s, int len)
 {
@@ -147,4 +148,15 @@ size_t ft_strlcpy(char *dst, const char *src, size_t size)
     while (src[i])
         i++;
     return (i);
+}
+
+void	ft_putstr(char *s)
+{
+		write(STDOUT_FILENO, s, ft_strlen(s));
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (s)
+		write(fd, s, ft_strlen(s));
 }

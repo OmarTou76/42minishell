@@ -22,7 +22,7 @@ void exit_on_error(char *s)
     exit(1);
 }
 
-int main(int argc, char const *argv[], char **envp)
+int main(int argc, char *argv[], char **envp)
 {
     (void)argc;
     (void)argv;
@@ -38,8 +38,14 @@ int main(int argc, char const *argv[], char **envp)
             continue;
         }
         add_history(cmd);
-        if (ft_strncmp(cmd, "exit", 4) == 0)
-            break;
+        if (ft_strncmp(cmd, "env", 3) == 0)
+        {
+            built_in_pwd();
+        }
+        if (ft_strncmp(cmd, "echo", 4) == 0)
+        {
+            built_in_echo(argc, argv);
+        }
         get_token_list(cmd, &tokens);
         if (ft_strncmp(tokens->cmd, "cd", 2) == 0)
         {
