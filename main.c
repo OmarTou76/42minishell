@@ -24,9 +24,11 @@ int	main(int argc, char const *argv[], char **envp)
 	t_tokens	*tokens;
 	char		*cmd;
 	t_cmd		*cmds;
+	t_list		*envp_list;
 
 	(void)argc;
 	(void)argv;
+	build_var(envp, &envp_list);
 	while (1)
 	{
 		signal(SIGINT, handle_sigint);
@@ -53,7 +55,7 @@ int	main(int argc, char const *argv[], char **envp)
 		{
 			cmds = NULL;
 			cmds = parse_tokens(&tokens);
-			//print_cmd(cmds);
+			// print_cmd(cmds);
 			runcmd(cmds, envp);
 			free_cmds(cmds);
 		}

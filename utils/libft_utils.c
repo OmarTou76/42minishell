@@ -187,3 +187,14 @@ char	*ft_strjoin(char *s1, char const *s2, size_t len)
 	free(s1);
 	return (join);
 }
+
+void	ft_putstr(char *s)
+{
+		write(STDOUT_FILENO, s, ft_strlen(s));
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (s)
+		write(fd, s, ft_strlen(s));
+}
