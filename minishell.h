@@ -34,7 +34,6 @@ typedef enum s_type
 	EXEC,
 	PIPE_CMD,
 	REDIR_CMD,
-	SUB_REDIR_CMD,
 } t_type;
 
 typedef struct s_tokens
@@ -69,8 +68,8 @@ typedef struct s_redirs
 {
 	t_type type;
 	t_cmd *cmd;
-	int fd;
-	int mode;
+	int fd; 
+	int mode; 
 	char *filename;
 	int is_here_doc;
 } t_redirs;
@@ -145,7 +144,6 @@ void save_heredoc(t_redirs *cmd, char **envp, char *tmp_file);
 
 int can_exec(char *filepath);
 char *get_file_path(char *execname, char **envp);
-void get_env_var_from_args(t_exec *e_cmd, char **envp);
 
 void exec_cmd_by_type(t_cmd *cmd, char **envp);
 void runcmd(t_cmd *cmd, char **envp);

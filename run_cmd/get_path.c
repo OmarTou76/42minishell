@@ -63,16 +63,3 @@ void update_arg(char **arg, char **envp)
         *arg = ft_strndup(value, ft_strlen(value));
     }
 }
-
-void get_env_var_from_args(t_exec *c, char **envp)
-{
-    int i;
-
-    i = 0;
-    while (c->argv[i])
-    {
-        if (c->argv[i][0] == '$')
-            update_arg(&c->argv[i], envp);
-        i++;
-    }
-}

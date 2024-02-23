@@ -38,7 +38,6 @@ t_cmd	*parse_redirs(t_cmd *cmd, t_tokens **tokens)
 	t_tokens *token;
 
 	token = (*tokens);
-	//print_cmd(cmd);
 	if (token && token->type == REDIR)
 	{
 		if (!token->next)

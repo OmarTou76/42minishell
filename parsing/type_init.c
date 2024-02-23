@@ -3,7 +3,6 @@
 t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 {
 	t_redirs *redirs;
-
 	redirs = malloc(sizeof(t_redirs));
 	redirs->type = REDIR_CMD;
 	redirs->cmd = subcmd;

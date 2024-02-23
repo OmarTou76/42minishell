@@ -10,7 +10,6 @@ void	run_exec(t_cmd *c, char **envp)
 	char	*filepath;
 
 	e_cmd = (t_exec *)c;
-	get_env_var_from_args(e_cmd, envp);
 	if (!e_cmd->is_builtin)
 	{
 		if (!can_exec(e_cmd->argv[0]))
