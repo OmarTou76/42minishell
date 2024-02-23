@@ -173,6 +173,9 @@ t_cmd				*parse_exec(t_tokens **tokens);
 t_cmd				*parse_parentheses(t_tokens **tokens);
 t_cmd				*parse_tokens(t_tokens **tokens);
 
+// BUILTINS
+int					built_in_echo(t_cmd *cmd);
+
 // RUN COMMAND
 int					cmd_is_builtin(char *cmd);
 void				run_builtin(t_exec *cmd, char **envp);

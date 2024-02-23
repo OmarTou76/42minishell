@@ -22,10 +22,10 @@ void	run_exec(t_cmd *c, char **envp)
 		}
 		if (e_cmd->argc)
 			execve(e_cmd->argv[0], e_cmd->argv, envp);
-		exit(0);
 	}
 	else
 		run_builtin(e_cmd, envp);
+	exit(0);
 }
 
 void	run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
