@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 10:44:44 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/23 18:36:03 by otourabi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
-static int	is_valid_option(char *str)
+static int is_valid_option(char *str)
 {
 	if (*str != '-')
 		return (0);
@@ -25,9 +13,9 @@ static int	is_valid_option(char *str)
 		return (0);
 }
 
-static int	number_of_options(int argc, char **argv)
+static int number_of_options(int argc, char **argv)
 {
-	int	i;
+	int i;
 
 	i = 1;
 	while (i < argc)
@@ -39,13 +27,12 @@ static int	number_of_options(int argc, char **argv)
 	return (i);
 }
 
-int	built_in_echo(t_cmd *cmd)
+int built_in_echo(t_exec *exec, t_list **env)
 {
-	t_exec *exec;
 	int i;
 	int n_option;
 
-	exec = (t_exec *)cmd;
+	(void)env;
 	n_option = 0;
 	i = number_of_options(exec->argc, exec->argv);
 	if (i > 1)
@@ -57,7 +44,7 @@ int	built_in_echo(t_cmd *cmd)
 			ft_putstr(" ");
 		i++;
 	}
-	if (n_option != 0)
+	if (!n_option)
 		ft_putstr("\n");
 	return (0);
 }

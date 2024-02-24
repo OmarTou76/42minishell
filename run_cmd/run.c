@@ -1,34 +1,34 @@
 #include "../minishell.h"
 
-void	run_redirs(t_cmd *c, char **envp, int run_next);
-void	exec_cmd_by_type(t_cmd *cmd, char **envp);
-void	update_cmd(t_cmd **cmd);
+void run_redirs(t_cmd *c, t_list **envp, int run_next);
+void exec_cmd_by_type(t_cmd *cmd, t_list **envp);
+void update_cmd(t_cmd **cmd);
 
-void	run_exec(t_cmd *c, char **envp)
+void run_exec(t_cmd *c, t_list **envp)
 {
-	t_exec	*e_cmd;
-	char	*filepath;
+	t_exec *e_cmd;
+	char *filepath;
 
 	e_cmd = (t_exec *)c;
 	if (!e_cmd->is_builtin)
 	{
 		if (!can_exec(e_cmd->argv[0]))
 		{
-			filepath = get_file_path(e_cmd->argv[0], envp);
+			filepath = get_file_path(e_cmd->argv[0], *envp);
 			if (!filepath)
 				printf("minishell: command not found: %s\n", e_cmd->argv[0]);
 			free(e_cmd->argv[0]);
 			e_cmd->argv[0] = filepath;
 		}
 		if (e_cmd->argc)
-			execve(e_cmd->argv[0], e_cmd->argv, envp);
+			execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp));
 	}
 	else
 		run_builtin(e_cmd, envp);
 	exit(0);
 }
 
-void	run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
+void run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 {
 	close(STDOUT_FILENO);
 	dup(p[1]);
@@ -37,7 +37,7 @@ void	run_left_cmd(t_pipe *p_cmd, int p[2], char **envp)
 	exec_cmd_by_type(p_cmd->left, envp);
 }
 
-void	run_right_cmd(t_pipe *p_cmd, int p[2], char **envp)
+void run_right_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 {
 	close(STDIN_FILENO);
 	dup(p[0]);
@@ -46,11 +46,11 @@ void	run_right_cmd(t_pipe *p_cmd, int p[2], char **envp)
 	exec_cmd_by_type(p_cmd->right, envp);
 }
 
-void	run_pipe(t_cmd *cmd, char **envp)
+void run_pipe(t_cmd *cmd, t_list **envp)
 {
-	t_pipe		*p_cmd;
-	t_redirs	*r_cmd;
-	int			p[2];
+	t_pipe *p_cmd;
+	t_redirs *r_cmd;
+	int p[2];
 
 	p_cmd = (t_pipe *)cmd;
 	r_cmd = (t_redirs *)p_cmd->left;
@@ -73,7 +73,7 @@ void	run_pipe(t_cmd *cmd, char **envp)
 	exit(0);
 }
 
-void	exec_cmd_by_type(t_cmd *cmd, char **envp)
+void exec_cmd_by_type(t_cmd *cmd, t_list **envp)
 {
 	if (cmd->type == EXEC)
 		run_exec(cmd, envp);
@@ -83,7 +83,7 @@ void	exec_cmd_by_type(t_cmd *cmd, char **envp)
 		run_redirs(cmd, envp, 1);
 }
 
-void	runcmd(t_cmd *cmd, char **envp)
+void runcmd(t_cmd *cmd, t_list **envp)
 {
 	if (fork() == 0)
 		exec_cmd_by_type(cmd, envp);

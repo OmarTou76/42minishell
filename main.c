@@ -1,30 +1,30 @@
 #include "minishell.h"
 
-int		g_status = 0;
+int g_status = 0;
 
-void	exit_on_error(char *s)
+void exit_on_error(char *s)
 {
 	printf("%s\n", s);
 	exit(0);
 }
 
-void	handle_sigint(int sig)
+void handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
 		g_status = 130;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_on_new_line();
 	}
 }
 
-int	main(int argc, char const *argv[], char **envp)
+int main(int argc, char const *argv[], char **envp)
 {
-	t_tokens	*tokens;
-	char		*cmd;
-	t_cmd		*cmds;
-	t_list		*envp_list;
+	t_tokens *tokens;
+	char *cmd;
+	t_cmd *cmds;
+	t_list *envp_list;
 
 	(void)argc;
 	(void)argv;
@@ -37,13 +37,13 @@ int	main(int argc, char const *argv[], char **envp)
 		if (!ft_strlen(cmd))
 		{
 			free(cmd);
-			continue ;
+			continue;
 		}
 		add_history(cmd);
 		if (ft_strncmp(cmd, "exit", 4) == 0)
-			break ;
+			break;
 		if (get_token_list(cmd, &tokens))
-			continue ;
+			continue;
 		update_tokens(&tokens, envp_list);
 		if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
 		{
@@ -55,7 +55,7 @@ int	main(int argc, char const *argv[], char **envp)
 			cmds = NULL;
 			cmds = parse_tokens(&tokens);
 			// print_cmd(cmds);
-			runcmd(cmds, envp);
+			runcmd(cmds, &envp_list);
 			free_cmds(cmds);
 		}
 		free(cmd);

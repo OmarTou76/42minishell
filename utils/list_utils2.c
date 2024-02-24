@@ -47,11 +47,14 @@ void ft_lstremoveif(t_list **alst, void *data_rm, int (*cmp)(), void (*free_fct)
     t_list *current;
     t_list *tmp_prev;
 
+    (void)(*cmp);
+    (void)(*data_rm);
     current = *alst;
     tmp_prev = NULL;
+
     while (current != NULL)
     {
-        if ((*cmp)(current->content, data_rm) == 0)
+        if (/* (*cmp)(current->content, data_rm) == */ 0)
         {
             if (free_fct != NULL)
                 (*free_fct)(current->content);
@@ -60,7 +63,7 @@ void ft_lstremoveif(t_list **alst, void *data_rm, int (*cmp)(), void (*free_fct)
             else
                 tmp_prev->next = current->next;
             free(current);
-            return ;
+            return;
         }
         tmp_prev = current;
         current = current->next;

@@ -29,7 +29,7 @@ int compute_and_check_path(char *execname, char *path, char target[], int bytes)
     return (can_exec(target));
 }
 
-char *get_file_path(char *execname, char **envp)
+char *get_file_path(char *execname, t_list *envp)
 {
     char filepath[1024];
     char *executable;
@@ -37,7 +37,7 @@ char *get_file_path(char *execname, char **envp)
     int i;
 
     i = 0;
-    paths = ft_split(get_paths(envp, "PATH"), ':');
+    paths = ft_split(search_var(envp, "PATH"), ':');
     while (paths[i] && !compute_and_check_path(execname, paths[i], filepath, 1024))
         i++;
     if (!paths[i])
