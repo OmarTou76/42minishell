@@ -83,9 +83,29 @@ void exec_cmd_by_type(t_cmd *cmd, t_list **envp)
 		run_redirs(cmd, envp, 1);
 }
 
+int cmd_can_be_exec_in_fork(t_exec *exec)
+{
+	char *builtin;
+
+	builtin = exec->argv[0];
+	if (!exec->is_builtin)
+		return (1);
+	else if (ft_strncmp(builtin, "echo", ft_strlen(builtin)) == 0)
+		return (1);
+	return (0);
+}
+
 void runcmd(t_cmd *cmd, t_list **envp)
 {
-	if (fork() == 0)
-		exec_cmd_by_type(cmd, envp);
-	wait(0);
+	t_exec *exec;
+
+	exec = (t_exec *)cmd;
+	if (cmd->type == EXEC && !cmd_can_be_exec_in_fork(exec))
+		run_builtin(exec, envp);
+	else
+	{
+		if (fork() == 0)
+			exec_cmd_by_type(cmd, envp);
+		wait(0);
+	}
 }

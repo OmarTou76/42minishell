@@ -120,6 +120,7 @@ char *ft_substr(char const *s, unsigned int start, size_t len);
 char *ft_strcat(char *str1, const char *str2);
 
 // ENVP
+int edit_var(t_list **var_list, char *key, char *value);
 int build_var(char **envp, t_list **var_list);
 t_var *create_var(char *str);
 char *search_var(t_list *var_list, char *key);
@@ -175,6 +176,8 @@ t_cmd *parse_tokens(t_tokens **tokens);
 
 // BUILTINS
 int built_in_echo(t_exec *exec, t_list **env);
+int built_in_pwd(t_exec *e, t_list **envp);
+int built_in_cd(t_exec *exec, t_list **env_var);
 
 // RUN COMMAND
 int cmd_is_builtin(char *cmd);

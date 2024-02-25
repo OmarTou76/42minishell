@@ -25,7 +25,7 @@ static int cd_home(t_list **env_var)
     return (0);
 }
 
-static t_bool get_dir(char **old_pwd, char *actual_dir, t_list **env_var, char *var_edited)
+static int get_dir(char **old_pwd, char *actual_dir, t_list **env_var, char *var_edited)
 {
     if (old_pwd)
     {
@@ -33,7 +33,7 @@ static t_bool get_dir(char **old_pwd, char *actual_dir, t_list **env_var, char *
         if (!*old_pwd)
         {
             file_error("cannot load OLDPWD", strerror(errno));
-            return(false);
+            return (0);
         }
     }
     if (!getcwd(actual_dir, BUFFER_SIZE))
@@ -41,15 +41,15 @@ static t_bool get_dir(char **old_pwd, char *actual_dir, t_list **env_var, char *
         file_error("cannot get PWD", strerror(errno));
         if (old_pwd)
             free(*old_pwd);
-        return (false);
+        return (0);
     }
     if (!edit_var(env_var, var_edited, actual_dir))
     {
         if (old_pwd)
             free(*old_pwd);
-        return (false);
+        return (0);
     }
-    return (true);
+    return (1);
 }
 
 static int cd_oldpwd(t_list **env_var)
@@ -78,27 +78,22 @@ static int cd_oldpwd(t_list **env_var)
     return (0);
 }
 
-int built_in_cd(int argc, char **argv, t_list **env_var)
+int built_in_cd(t_exec *exec, t_list **env_var)
 {
     char actual_dir[BUFFER_SIZE];
 
-    if (argc == 2)
+    if (exec->argc == 1)
+        return (cd_home(env_var));
+    else
     {
-        if (ft_strcmp(argv[1], "-"))
+        if (ft_strcmp(exec->argv[1], "-") == 0)
             return (cd_oldpwd(env_var));
         if (!get_dir(NULL, actual_dir, env_var, "OLDPWD"))
             return (1);
-        if (chdir(argv[1]) == -1)
-            return (print_cd_error(strerror(errno), argv[1]));
+        if (chdir(exec->argv[1]) == -1)
+            return (print_cd_error(strerror(errno), exec->argv[1]));
         if (!get_dir(NULL, actual_dir, env_var, "PWD"))
             return (1);
     }
-    else if (argc > 2)
-    {
-        ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
-        return (1);
-    }
-    else if (argc == 1)
-        return (cd_home(env_var));
-    return (0);
+    return 0;
 }

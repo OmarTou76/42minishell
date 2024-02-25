@@ -45,16 +45,12 @@ int main(int argc, char const *argv[], char **envp)
 		if (get_token_list(cmd, &tokens))
 			continue;
 		update_tokens(&tokens, envp_list);
-		if (tokens && ft_strncmp(tokens->cmd, "cd", 2) == 0)
-		{
-			if (chdir(trim_quotes(&tokens->next)) < 0)
-				perror("chdir");
-		}
-		else if (tokens)
+		if (tokens)
 		{
 			cmds = NULL;
 			cmds = parse_tokens(&tokens);
 			// print_cmd(cmds);
+			// PROBLEME AVEC LE FONCTIONNEMENT DE CD
 			runcmd(cmds, &envp_list);
 			free_cmds(cmds);
 		}

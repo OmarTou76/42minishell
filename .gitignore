@@ -3,6 +3,7 @@ minishell.dYSM/*
 
 .*
 .*/*.DS_Store
-.git
-.gitignore
+.git*
 .vscode
+*.o
+minishell*

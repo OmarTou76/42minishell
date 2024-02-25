@@ -44,7 +44,9 @@ builtin_func get_builtin_func(char *cmd)
     if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
         return &built_in_echo;
     else if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
-        return NULL;
+        return &built_in_pwd;
+    else if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+        return &built_in_cd;
     return NULL;
 }
 
