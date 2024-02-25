@@ -178,6 +178,7 @@ t_cmd *parse_tokens(t_tokens **tokens);
 int built_in_echo(t_exec *exec, t_list **env);
 int built_in_pwd(t_exec *e, t_list **envp);
 int built_in_cd(t_exec *exec, t_list **env_var);
+int built_in_env(t_exec *exec, t_list **env_var);
 
 // RUN COMMAND
 int cmd_is_builtin(char *cmd);

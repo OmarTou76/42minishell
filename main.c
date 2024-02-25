@@ -50,9 +50,8 @@ int main(int argc, char const *argv[], char **envp)
 			cmds = NULL;
 			cmds = parse_tokens(&tokens);
 			// print_cmd(cmds);
-			// PROBLEME AVEC LE FONCTIONNEMENT DE CD
 			runcmd(cmds, &envp_list);
-			free_cmds(cmds);
+            free_cmds(cmds);
 		}
 		free(cmd);
 		free_tokens(tokens);

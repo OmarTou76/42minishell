@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omar <omar@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:44:49 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/20 12:50:50 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:49:44 by omar             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int built_in_env(t_list *env_var)
+int built_in_env(t_exec *exec, t_list **env_var)
 {
-    int     i;
-    char    **envp;
+    int i;
+    char **envp;
 
-    envp = build_env(env_var);
+    (void)exec;
+    envp = build_env(*env_var);
     if (!envp)
     {
         ft_putstr_fd("Mninshell: env: ", 2);

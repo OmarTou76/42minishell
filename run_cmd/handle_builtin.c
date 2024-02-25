@@ -2,19 +2,19 @@
 
 int cmd_is_builtin(char *cmd)
 {
-    if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+    if (ft_strcmp(cmd, "cd") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "echo") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "pwd") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "export") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "unset", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "unset") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "env", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "env") == 0)
         return (1);
-    else if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "exit") == 0)
         return (1);
     return (0);
 }
@@ -41,12 +41,14 @@ void ft_echo(t_exec *cmd, char **envp)
 
 builtin_func get_builtin_func(char *cmd)
 {
-    if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+    if (ft_strcmp(cmd, "echo") == 0)
         return &built_in_echo;
-    else if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "pwd") == 0)
         return &built_in_pwd;
-    else if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+    else if (ft_strcmp(cmd, "cd") == 0)
         return &built_in_cd;
+    else if (ft_strcmp(cmd, "env") == 0)
+        return &built_in_env;
     return NULL;
 }
 
