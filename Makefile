@@ -5,7 +5,7 @@ RM= rm -rf
 
 # builtins/exit.c builtins/unset.c 
 
-SRCS = main.c utils/libft_utils.c utils/libft_utils2.c utils/list_utils.c utils/list_utils2.c utils/free_utils.c utils/error_utils.c \
+SRCS = main.c utils/libft_utils.c utils/libft_utils2.c utils/list_utils.c utils/list_utils2.c utils/free_utils.c utils/error_utils.c utils/ft_itoa.c \
 	builtins/echo.c builtins/pwd.c builtins/cd.c  builtins/export.c builtins/export_utils.c builtins/unset.c debugger/debug.c \
 	tokenize/assign_types.c tokenize/tokens_utils.c tokenize/tokens_checker.c tokenize/update_tokens.c \
 	parsing/parsing.c parsing/type_init.c parsing/parse_redirs.c parsing/parse_exec.c \

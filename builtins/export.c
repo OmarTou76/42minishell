@@ -49,7 +49,7 @@ int export_rules(char *str, t_list **env_var)
     if (!key && !error)
     {
         cmd_error_write("export", strerror(errno));
-        return(1);
+        return (1);
     }
     if (error)
     {

@@ -10,8 +10,8 @@ void	print_args(t_exec *exc)
 	
 	argv = exc->argv;
 	i = 0;
-	printf("builtin: %s\n", exc->is_builtin ? "TRUE" : "FALSE");
-	while (argv[i])
+	printf("builtin: %s - %d\n", exc->is_builtin ? "TRUE" : "FALSE", exc->argc);
+	while (i < exc->argc)
 	{
 		printf("ARGV[%d]: %s\n", i, argv[i]);
 		i++;

@@ -4,16 +4,27 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next);
 void	exec_cmd_by_type(t_cmd *cmd, t_list **envp);
 void	update_cmd(t_cmd **cmd);
 
-
-void	refresh_argc(t_exec *e_cmd){
-	int i;
+void	refresh_argc(t_exec *e_cmd)
+{
+	int	i;
 
 	i = 0;
-	while(e_cmd->argv[i])
+	while (e_cmd->argv[i])
 		i++;
 	e_cmd->argc = i;
 }
 
+int	handle_status(int pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		status = WTERMSIG(status);
+	return (status);
+}
 
 void	run_exec(t_cmd *c, t_list **envp)
 {
@@ -39,7 +50,7 @@ void	run_exec(t_cmd *c, t_list **envp)
 			execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp));
 	}
 	else
-		run_builtin(e_cmd, envp);
+		exit(run_builtin(e_cmd, envp));
 	exit(0);
 }
 
@@ -66,7 +77,13 @@ void	run_pipe(t_cmd *cmd, t_list **envp)
 	t_pipe		*p_cmd;
 	t_redirs	*r_cmd;
 	int			p[2];
+	int			l_status;
+	int			r_status;
+	int			left_pid;
+	int			right_pid;
 
+	l_status = 0;
+	r_status = 0;
 	p_cmd = (t_pipe *)cmd;
 	r_cmd = (t_redirs *)p_cmd->left;
 	if (p_cmd->left->type == REDIR_CMD && r_cmd->is_here_doc)
@@ -77,15 +94,19 @@ void	run_pipe(t_cmd *cmd, t_list **envp)
 	}
 	if (pipe(p) < 0)
 		exit_on_error("Pipe function");
-	if (fork() == 0)
+	left_pid = fork();
+	if (left_pid == 0)
 		run_left_cmd(p_cmd, p, envp);
-	if (fork() == 0)
+	right_pid = fork();
+	if (right_pid == 0)
 		run_right_cmd(p_cmd, p, envp);
 	close(p[0]);
 	close(p[1]);
-	wait(NULL);
-	wait(NULL);
-	exit(0);
+	l_status = handle_status(left_pid);
+	r_status = handle_status(right_pid);
+	if (!r_status)
+		exit(l_status);
+	exit(r_status);
 }
 
 void	exec_cmd_by_type(t_cmd *cmd, t_list **envp)
@@ -110,6 +131,7 @@ int	cmd_can_be_exec_in_fork(t_exec *exec)
 	return (0);
 }
 
+
 void	runcmd(t_cmd *cmd, t_list **envp)
 {
 	t_exec *exec;
@@ -118,16 +140,14 @@ void	runcmd(t_cmd *cmd, t_list **envp)
 
 	exec = (t_exec *)cmd;
 	if (cmd->type == EXEC && !cmd_can_be_exec_in_fork(exec))
-		run_builtin(exec, envp);
+		status = run_builtin(exec, envp);
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 			exec_cmd_by_type(cmd, envp);
-		waitpid(pid, &status, 0);
-		/* if (WIFEXITED(status))
-			printf("OK: [%d]\n", WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
-			printf("ERROR: [%d]\n", WTERMSIG(status)); */
+		status = handle_status(pid);
 	}
+	//printf("[%d]\n", status);
+	edit_var(envp, "_LAST_EXIT_", ft_itoa(status));
 }
