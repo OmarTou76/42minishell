@@ -49,6 +49,10 @@ builtin_func get_builtin_func(char *cmd)
         return &built_in_cd;
     else if (ft_strcmp(cmd, "env") == 0)
         return &built_in_env;
+    else if (ft_strcmp(cmd, "export") == 0)
+        return &built_in_export;
+    else if (ft_strcmp(cmd, "unset") == 0)
+        return &built_in_unset;
     return NULL;
 }
 

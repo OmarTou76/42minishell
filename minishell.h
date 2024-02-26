@@ -118,6 +118,12 @@ int ft_strncmp(const char *s1, const char *s2, size_t n);
 int ft_strcmp(const char *s1, const char *s2);
 char *ft_substr(char const *s, unsigned int start, size_t len);
 char *ft_strcat(char *str1, const char *str2);
+int print_export(t_list *env_var);
+char *parse_key(char **str, int *error, int *append);
+void	cmd_error_write(char *cmd, char *error);
+int	ft_isnum(int c);
+int	ft_isalnum(int c);
+int	ft_memcmp(const void *s1, const void *s2, size_t n);
 
 // ENVP
 int edit_var(t_list **var_list, char *key, char *value);
@@ -179,6 +185,8 @@ int built_in_echo(t_exec *exec, t_list **env);
 int built_in_pwd(t_exec *e, t_list **envp);
 int built_in_cd(t_exec *exec, t_list **env_var);
 int built_in_env(t_exec *exec, t_list **env_var);
+int built_in_export(t_exec *exec, t_list **env_var);
+int built_in_unset(t_exec *exec, t_list **env_var);
 
 // RUN COMMAND
 int cmd_is_builtin(char *cmd);

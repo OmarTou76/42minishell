@@ -54,7 +54,7 @@ void ft_lstremoveif(t_list **alst, void *data_rm, int (*cmp)(), void (*free_fct)
 
     while (current != NULL)
     {
-        if (/* (*cmp)(current->content, data_rm) == */ 0)
+        if ( (*cmp)(current->content, data_rm) ==  0)
         {
             if (free_fct != NULL)
                 (*free_fct)(current->content);

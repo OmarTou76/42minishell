@@ -37,3 +37,12 @@ void	*load_var_error(char *err_str, t_var *err_var, void *ret)
 	ft_putstr_fd("\n", STDERR_FILENO);
 	return (ret);
 }
+
+void	cmd_error_write(char *cmd, char *error)
+{
+	ft_putstr_fd("Minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(error, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
