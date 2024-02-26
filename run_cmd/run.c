@@ -1,22 +1,37 @@
 #include "../minishell.h"
 
-void run_redirs(t_cmd *c, t_list **envp, int run_next);
-void exec_cmd_by_type(t_cmd *cmd, t_list **envp);
-void update_cmd(t_cmd **cmd);
+void	run_redirs(t_cmd *c, t_list **envp, int run_next);
+void	exec_cmd_by_type(t_cmd *cmd, t_list **envp);
+void	update_cmd(t_cmd **cmd);
 
-void run_exec(t_cmd *c, t_list **envp)
+
+void	refresh_argc(t_exec *e_cmd){
+	int i;
+
+	i = 0;
+	while(e_cmd->argv[i])
+		i++;
+	e_cmd->argc = i;
+}
+
+
+void	run_exec(t_cmd *c, t_list **envp)
 {
-	t_exec *e_cmd;
-	char *filepath;
+	t_exec	*e_cmd;
+	char	*filepath;
 
 	e_cmd = (t_exec *)c;
+	refresh_argc(e_cmd);
 	if (!e_cmd->is_builtin)
 	{
 		if (!can_exec(e_cmd->argv[0]))
 		{
 			filepath = get_file_path(e_cmd->argv[0], *envp);
 			if (!filepath)
+			{
 				printf("minishell: command not found: %s\n", e_cmd->argv[0]);
+				exit(127);
+			}
 			free(e_cmd->argv[0]);
 			e_cmd->argv[0] = filepath;
 		}
@@ -28,7 +43,7 @@ void run_exec(t_cmd *c, t_list **envp)
 	exit(0);
 }
 
-void run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
+void	run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 {
 	close(STDOUT_FILENO);
 	dup(p[1]);
@@ -37,7 +52,7 @@ void run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 	exec_cmd_by_type(p_cmd->left, envp);
 }
 
-void run_right_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
+void	run_right_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 {
 	close(STDIN_FILENO);
 	dup(p[0]);
@@ -46,11 +61,11 @@ void run_right_cmd(t_pipe *p_cmd, int p[2], t_list **envp)
 	exec_cmd_by_type(p_cmd->right, envp);
 }
 
-void run_pipe(t_cmd *cmd, t_list **envp)
+void	run_pipe(t_cmd *cmd, t_list **envp)
 {
-	t_pipe *p_cmd;
-	t_redirs *r_cmd;
-	int p[2];
+	t_pipe		*p_cmd;
+	t_redirs	*r_cmd;
+	int			p[2];
 
 	p_cmd = (t_pipe *)cmd;
 	r_cmd = (t_redirs *)p_cmd->left;
@@ -73,7 +88,7 @@ void run_pipe(t_cmd *cmd, t_list **envp)
 	exit(0);
 }
 
-void exec_cmd_by_type(t_cmd *cmd, t_list **envp)
+void	exec_cmd_by_type(t_cmd *cmd, t_list **envp)
 {
 	if (cmd->type == EXEC)
 		run_exec(cmd, envp);
@@ -83,9 +98,9 @@ void exec_cmd_by_type(t_cmd *cmd, t_list **envp)
 		run_redirs(cmd, envp, 1);
 }
 
-int cmd_can_be_exec_in_fork(t_exec *exec)
+int	cmd_can_be_exec_in_fork(t_exec *exec)
 {
-	char *builtin;
+	char	*builtin;
 
 	builtin = exec->argv[0];
 	if (!exec->is_builtin)
@@ -95,17 +110,24 @@ int cmd_can_be_exec_in_fork(t_exec *exec)
 	return (0);
 }
 
-void runcmd(t_cmd *cmd, t_list **envp)
+void	runcmd(t_cmd *cmd, t_list **envp)
 {
 	t_exec *exec;
+	int status;
+	int pid;
 
 	exec = (t_exec *)cmd;
 	if (cmd->type == EXEC && !cmd_can_be_exec_in_fork(exec))
 		run_builtin(exec, envp);
 	else
 	{
-		if (fork() == 0)
+		pid = fork();
+		if (pid == 0)
 			exec_cmd_by_type(cmd, envp);
-		wait(0);
+		waitpid(pid, &status, 0);
+		/* if (WIFEXITED(status))
+			printf("OK: [%d]\n", WEXITSTATUS(status));
+		if (WIFSIGNALED(status))
+			printf("ERROR: [%d]\n", WTERMSIG(status)); */
 	}
 }
