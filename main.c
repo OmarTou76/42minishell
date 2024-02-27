@@ -8,7 +8,7 @@ void	exit_on_error(char *s)
 	exit(0);
 }
 
-void	handle_sigint(int sig)
+void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -33,12 +33,17 @@ int	main(int argc, char const *argv[], char **envp)
 	while (1)
 	{
 		g_status = 0;
-		signal(SIGINT, handle_sigint);
+		signal(SIGINT, handle_sig);
 		signal(SIGQUIT, SIG_IGN);
 		cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
 		if (!ft_strlen(cmd))
 		{
 			free(cmd);
+			if (!cmd)
+			{
+				write(1, "\n", 1);
+				break ;
+			}
 			continue ;
 		}
 		add_history(cmd);
@@ -56,5 +61,6 @@ int	main(int argc, char const *argv[], char **envp)
 			free_cmds(cmds);
 		}
 	}
+	ft_clearlst(&envp_list, free_var);
 	return (0);
 }

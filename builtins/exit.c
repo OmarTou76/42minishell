@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:45:10 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/27 13:04:24 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/27 13:36:13 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	built_in_exit(t_exec *exec, t_list **env_var)
 {
 	int ret;
-	//(void)env_var;
 
 	ft_putstr_fd("exit\n", 2);
 	ft_clearlst(env_var, free_var);
