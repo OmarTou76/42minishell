@@ -37,6 +37,8 @@ char *get_file_path(char *execname, t_list *envp)
     int i;
 
     i = 0;
+    if(!search_var(envp, "PATH"))
+        return (NULL);
     paths = ft_split(search_var(envp, "PATH"), ':');
     while (paths[i] && !compute_and_check_path(execname, paths[i], filepath, 1024))
         i++;
