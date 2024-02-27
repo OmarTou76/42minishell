@@ -39,14 +39,25 @@ int	is_possible_env(char *str)
 	return (1);
 }
 
+char	*join_str(char *start, char *env, char *end)
+{
+	char	*res;
+
+	if (env)
+		res = ft_strjoin(start, env, ft_strlen(env));
+	else
+		res = ft_strdup(start);
+	if (end)
+		res = ft_strjoin(res, end, ft_strlen(end));
+	return (res);
+}
+
 void	replace_by_env(t_tokens *token, t_list *envp_list)
 {
 	char	*start;
 	char	*rest;
 	int		i;
 	char	*env;
-	char	*tmp;
-	char	*env_value;
 
 	while (token->env_var)
 	{
@@ -58,21 +69,18 @@ void	replace_by_env(t_tokens *token, t_list *envp_list)
 		rest = ft_strndup(token->cmd + (token->env_var - token->cmd),
 				ft_strlen(token->cmd));
 		i = 1;
-		while (rest[i] && (is_alnum(rest[i]) || rest[i] == '-'
-				|| rest[i] == '_'))
+		while (rest[i] && (rest[i] > 32 && rest[i] < 127))
 			i++;
 		env = ft_strndup(rest, i);
-		tmp = rest;
-		rest = ft_strndup(rest + i, ft_strlen(rest + i));
-		free(tmp);
+		if (ft_strcmp(env, "$?") == 0)
+		{
+			free(env);
+			env = ft_strdup("$_LAST_EXIT_");
+		}
 		free(token->cmd);
-		env_value = search_var(envp_list, env + 1);
-		if (env_value)
-			token->cmd = ft_strjoin(start, env_value, ft_strlen(env_value));
-		else
-			token->cmd = ft_strdup(start);
-		token->cmd = ft_strjoin(token->cmd, rest, ft_strlen(rest));
+		token->cmd = join_str(start, search_var(envp_list, env + 1), rest + i);
 		token->env_var = strchrs(token->cmd, "$");
+		free(env);
 		free(rest);
 	}
 }
@@ -101,6 +109,7 @@ void	remove_spaces(t_tokens **tokens)
 		free((*tokens)->cmd);
 		free((*tokens));
 		*tokens = NULL;
+		return ;
 	}
 	while (token && token->next)
 	{
