@@ -44,20 +44,17 @@ int	main(int argc, char const *argv[], char **envp)
 		add_history(cmd);
 		if (get_token_list(cmd, &tokens))
 			continue ;
+		free(cmd);
 		update_tokens(&tokens, envp_list);
-		
 		if (tokens)
 		{
 			cmds = NULL;
 			cmds = parse_tokens(&tokens);
-			// print_cmd(cmds);
+			free_tokens(tokens);
 			g_status = 1;
 			runcmd(cmds, &envp_list);
 			free_cmds(cmds);
 		}
-		free(cmd);
-		free_tokens(tokens);
 	}
-	free(cmd);
 	return (0);
 }
