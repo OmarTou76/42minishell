@@ -46,7 +46,10 @@ char	*join_str(char *start, char *env, char *end)
 	if (env)
 		res = ft_strjoin(start, env, ft_strlen(env));
 	else
+	{
 		res = ft_strdup(start);
+		free(start);
+	}
 	if (end)
 		res = ft_strjoin(res, end, ft_strlen(end));
 	return (res);

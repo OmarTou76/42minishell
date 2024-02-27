@@ -33,8 +33,6 @@ char **build_env(t_list *env_var)
             continue;
         }
         env_str = set_env_str(var);
-        /* if (!env_str)
-            return (return_and_free(envp, i)); */
         envp[i++] = env_str;
         env_var = env_var->next;
     }
