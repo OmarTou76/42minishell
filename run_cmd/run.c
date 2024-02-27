@@ -137,6 +137,7 @@ void	runcmd(t_cmd *cmd, t_list **envp)
 	t_exec *exec;
 	int status;
 	int pid;
+	char *err_code;
 
 	exec = (t_exec *)cmd;
 	if (cmd->type == EXEC && !cmd_can_be_exec_in_fork(exec))
@@ -148,6 +149,7 @@ void	runcmd(t_cmd *cmd, t_list **envp)
 			exec_cmd_by_type(cmd, envp);
 		status = handle_status(pid);
 	}
-	//printf("[%d]\n", status);
-	edit_var(envp, "_LAST_EXIT_", ft_itoa(status));
+	err_code = ft_itoa(status);
+	edit_var(envp, "_LAST_EXIT_", err_code);
+	free(err_code);
 }
