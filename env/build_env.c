@@ -27,7 +27,7 @@ char **build_env(t_list *env_var)
     while (env_var)
     {
         var = *(t_var *)env_var->content;
-        if (!ft_strcmp(var.key, "?") || !var.data)
+        if (!ft_strcmp(var.key, "?") || !ft_strcmp(var.key, "LAST_EXIT_") || !var.data)
         {
             env_var = env_var->next;
             continue;

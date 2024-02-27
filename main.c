@@ -42,8 +42,6 @@ int	main(int argc, char const *argv[], char **envp)
 			continue ;
 		}
 		add_history(cmd);
-		if (ft_strncmp(cmd, "exit", 4) == 0)
-			break ;
 		if (get_token_list(cmd, &tokens))
 			continue ;
 		update_tokens(&tokens, envp_list);

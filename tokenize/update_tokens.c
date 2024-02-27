@@ -58,7 +58,8 @@ void	replace_by_env(t_tokens *token, t_list *envp_list)
 		rest = ft_strndup(token->cmd + (token->env_var - token->cmd),
 				ft_strlen(token->cmd));
 		i = 1;
-		while (rest[i] && is_alnum(rest[i]))
+		while (rest[i] && (is_alnum(rest[i]) || rest[i] == '-'
+				|| rest[i] == '_'))
 			i++;
 		env = ft_strndup(rest, i);
 		tmp = rest;
@@ -95,6 +96,12 @@ void	remove_spaces(t_tokens **tokens)
 	t_tokens	*to_remove;
 
 	token = *tokens;
+	if (token->type == SPACE_SEPARATOR && !token->next)
+	{
+		free((*tokens)->cmd);
+		free((*tokens));
+		*tokens = NULL;
+	}
 	while (token && token->next)
 	{
 		if (token->next->type == SPACE_SEPARATOR)

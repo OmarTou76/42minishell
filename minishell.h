@@ -125,6 +125,9 @@ int					ft_isnum(int c);
 int					ft_isalnum(int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_itoa(int n);
+int					ft_atoi(const char *str);
+int					ft_strisnum(const char *str);
+
 
 // ENVP
 int					edit_var(t_list **var_list, char *key, char *value);
@@ -188,6 +191,7 @@ int					built_in_cd(t_exec *exec, t_list **env_var);
 int					built_in_env(t_exec *exec, t_list **env_var);
 int					built_in_export(t_exec *exec, t_list **env_var);
 int					built_in_unset(t_exec *exec, t_list **env_var);
+int					built_in_exit(t_exec *exec, t_list **env_var);
 
 // RUN COMMAND
 int					cmd_is_builtin(char *cmd);

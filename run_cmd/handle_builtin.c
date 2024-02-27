@@ -53,6 +53,8 @@ builtin_func	get_builtin_func(char *cmd)
 		return (&built_in_export);
 	else if (ft_strcmp(cmd, "unset") == 0)
 		return (&built_in_unset);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		return (&built_in_exit);
 	return (NULL);
 }
 
