@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:45:10 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/27 12:33:51 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/27 13:04:24 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int	built_in_exit(t_exec *exec, t_list **env_var)
 	}
 	else if (exec->argv[1])
 	{
+		ret = ft_atoi(exec->argv[1]) % 256;
 		free_cmds((t_cmd *)exec);
-		exit(ft_atoi(exec->argv[1]) % 256);
+		exit(ret);
 	}
 	else
 	{
-        free_cmds((t_cmd*)exec);
+		free_cmds((t_cmd *)exec);
 		exit(0);
 	}
 	return (ret);
