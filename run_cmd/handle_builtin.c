@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:45 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 12:54:46 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:26:27 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ int	run_builtin(t_exec *cmd, t_list **envp)
 
 	exec_builtin = get_builtin_func(cmd->argv[0]);
 	return (exec_builtin(cmd, envp));
+}
+
+int	can_exec(char *filepath)
+{
+	struct stat	sb;
+
+	return (!stat(filepath, &sb));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:14 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 15:58:29 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:36:18 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	update_redirs(t_tokens **tokens)
 	}
 }
 
-static int check_redirs(t_tokens *token)
+static int	check_redirs(t_tokens *token)
 {
 	while (token)
 	{

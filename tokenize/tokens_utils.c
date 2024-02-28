@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:18 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 15:58:39 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:36:12 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,3 +94,4 @@ int	get_token_list(char *usr_cmd, t_tokens **tokens)
 	}
 	return (0);
 }
+

@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_redirs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 15:44:20 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:29:22 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handle_heredoc(int sig)
-{
-	if (sig == SIGINT)
-		exit(0);
-}
 
 void	save_heredoc(t_redirs *cmd, char *tmp_file)
 {

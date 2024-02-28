@@ -53,3 +53,12 @@ void	ft_safe_free(void *mem)
 	if (mem)
 		free(mem);
 }
+
+void	file_error(char *file, char *error)
+{
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
+}

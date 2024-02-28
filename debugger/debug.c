@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 13:11:03 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 13:13:17 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:06:24 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,24 +109,5 @@ void	print_tokens(t_tokens *tokens)
 	{
 		printf("[%s] - [%d] - [%s]\n", tokens->cmd, tokens->type, tokens->env_var ? tokens->env_var : "");
 		tokens = tokens->next;
-	}
-}
-
-void	print_type(t_type type)
-{
-	switch (type)
-	{
-		case PIPE_CMD:
-			printf("PIPE\n");
-		break ;
-		case REDIR_CMD:
-			printf("REDIR\n");
-		break ;
-		case EXEC:
-			printf("EXEC CMD\n");
-		break ;
-		default :
-			printf("CMD NOT FOUND\n");
-		break ;
 	}
 }

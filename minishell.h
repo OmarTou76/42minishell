@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 15:41:00 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:40:44 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ int					tokens_have_conflicts(t_tokens **tokens);
 void				merge_tokens(t_tokens **tokens);
 void				update_tokens(t_tokens **tokens, t_list *envp);
 
+
 // PARSING
 t_cmd				*create_exec(void);
 t_cmd				*create_redirs(t_cmd *subcmd, char *filename, int mode,
@@ -193,6 +194,7 @@ t_cmd				*parse_exec(t_tokens **tokens);
 
 t_cmd				*parse_parentheses(t_tokens **tokens);
 t_cmd				*parse_tokens(t_tokens **tokens);
+void	replace_by_env(t_tokens *token, t_list *envp_list);
 
 // BUILTINS
 int					built_in_echo(t_exec *exec, t_list **env);
@@ -212,6 +214,11 @@ void				update_cmd(t_cmd **cmd);
 void				run_multiple_heredoc(t_redirs *cmd, t_list **envp);
 void				run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd);
 void				save_heredoc(t_redirs *cmd, char *tmp_file);
+void				handle_heredoc(int sig);
+int					handle_status(int pid);
+void	run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp);
+void	run_right_cmd(t_pipe *p_cmd, int p[2], t_list **envp);
+void	run_exec(t_cmd *c, t_list **envp);
 
 int					can_exec(char *filepath);
 char				*get_file_path(char *execname, t_list *envp);

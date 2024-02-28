@@ -12,15 +12,6 @@
 
 #include "../minishell.h"
 
-void	file_error(char *file, char *error)
-{
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(file, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd("\n", 2);
-}
-
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*ptr;

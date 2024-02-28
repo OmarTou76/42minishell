@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:34 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:32:13 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:03:56 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int	print_export(t_list *env_var)
 	{
 		var = (t_var *)env_var->content;
 		env_var = env_var->next;
-		if (!ft_strcmp(var->key, "?") || !ft_strcmp(var->key, "_") || !ft_strcmp(var->key, "_LAST_EXIT_"))
+		if (!ft_strcmp(var->key, "?") || !ft_strcmp(var->key, "_")
+			|| !ft_strcmp(var->key, "_LAST_EXIT_"))
 			continue ;
 		var_tbl[i++] = var;
 	}
