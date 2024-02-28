@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 11:16:03 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -127,7 +139,6 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_itoa(int n);
 int					ft_atoi(const char *str);
 int					ft_strisnum(const char *str);
-
 
 // ENVP
 int					edit_var(t_list **var_list, char *key, char *value);
