@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_cmds.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 12:54:04 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 12:54:34 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static void	free_exec(t_exec *cmd)
@@ -25,7 +37,9 @@ void	free_redirs(t_redirs *cmd)
 	free(cmd->filename);
 	free(cmd);
 }
+
 static void	free_pipe(t_pipe *p);
+
 static void	free_side_pipe(t_cmd *cmd)
 {
 	t_exec		*ex;

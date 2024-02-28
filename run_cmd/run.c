@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 12:55:46 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	run_redirs(t_cmd *c, t_list **envp, int run_next);
@@ -131,13 +143,12 @@ int	cmd_can_be_exec_in_fork(t_exec *exec)
 	return (0);
 }
 
-
 void	runcmd(t_cmd *cmd, t_list **envp)
 {
-	t_exec *exec;
-	int status;
-	int pid;
-	char *err_code;
+	t_exec	*exec;
+	int		status;
+	int		pid;
+	char	*err_code;
 
 	exec = (t_exec *)cmd;
 	if (cmd->type == EXEC && !cmd_can_be_exec_in_fork(exec))

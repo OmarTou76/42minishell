@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_redirs.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 12:58:17 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	handle_heredoc(int sig)
@@ -16,12 +28,11 @@ void	save_heredoc(t_redirs *cmd, char *tmp_file)
 	while (1)
 	{
 		signal(SIGINT, handle_heredoc);
-		//signal(SIGQUIT, SIG_IGN);
 		line = readline("heredoc> ");
 		if (!line)
 		{
 			write(1, "\n", 1);
-			break;
+			break ;
 		}
 		if (line && ft_strcmp(line, cmd->filename) == 0)
 			break ;
@@ -48,7 +59,7 @@ void	run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd)
 	{
 		printf("%s, ", cmd->filename);
 		exit_on_error("No such file");
-	};
+	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
 	if (cmd->cmd->type == REDIR_CMD)
@@ -91,8 +102,8 @@ void	update_cmd(t_cmd **cmd)
 
 void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 {
-	t_redirs *cmd;
-	t_redirs *next;
+	t_redirs	*cmd;
+	t_redirs	*next;
 
 	cmd = (t_redirs *)c;
 	if (cmd->is_here_doc)
@@ -110,7 +121,7 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 	{
 		printf("%s, ", cmd->filename);
 		exit_on_error("No such file");
-	};
+	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
 	if (run_next)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_path.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 12:54:51 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 12:56:13 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	can_exec(char *filepath)
@@ -32,8 +44,9 @@ int	compute_and_check_path(char *execname, char *path, char target[], int bytes)
 
 void	free_split(char **paths)
 {
-	int i ;
+	int	i ;
 	i = -1;
+
 	while (paths[++i])
 		free(paths[i]);
 	free(paths);
