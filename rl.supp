@@ -2,5 +2,11 @@
    ignore_readlines_errors
    Memcheck:Leak
    ...
-   obj:*/libreadline.so.*
+   fun:readline
+}
+{
+   leak add_history
+   Memcheck:Leak
+   ...
+   fun:add_history
 }
