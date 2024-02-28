@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 12:55:46 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:07:03 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,10 @@ int	cmd_can_be_exec_in_fork(t_exec *exec)
 	if (!exec->is_builtin)
 		return (1);
 	else if (ft_strncmp(builtin, "echo", ft_strlen(builtin)) == 0)
+		return (1);
+	else if (ft_strncmp(builtin, "pwd", ft_strlen(builtin)) == 0)
+		return (1);
+	else if (ft_strncmp(builtin, "env", ft_strlen(builtin)) == 0)
 		return (1);
 	return (0);
 }
