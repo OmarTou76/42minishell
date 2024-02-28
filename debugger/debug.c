@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 13:11:03 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 13:13:17 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	print_redirs(t_redirs *cmd);
@@ -7,7 +19,6 @@ void	print_args(t_exec *exc)
 	char	**argv;
 	int		i;
 
-	
 	argv = exc->argv;
 	i = 0;
 	printf("builtin: %s - %d\n", exc->is_builtin ? "TRUE" : "FALSE", exc->argc);
@@ -105,18 +116,17 @@ void	print_type(t_type type)
 {
 	switch (type)
 	{
-	case PIPE_CMD:
-		printf("PIPE\n");
+		case PIPE_CMD:
+			printf("PIPE\n");
 		break ;
-	case REDIR_CMD:
-		printf("REDIR\n");
+		case REDIR_CMD:
+			printf("REDIR\n");
 		break ;
-	case EXEC:
-		printf("EXEC CMD\n");
+		case EXEC:
+			printf("EXEC CMD\n");
 		break ;
-
-	default:
-		printf("CMD NOT FOUND\n");
+		default :
+			printf("CMD NOT FOUND\n");
 		break ;
 	}
 }
