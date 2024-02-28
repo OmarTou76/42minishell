@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_redirs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:18:08 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:21:13 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_cmd	*stdout_redirs(t_cmd *cmd, t_tokens **tokens)
@@ -35,7 +47,7 @@ t_cmd	*stdin_redirs(t_cmd *cmd, t_tokens **tokens)
 
 t_cmd	*parse_redirs(t_cmd *cmd, t_tokens **tokens)
 {
-	t_tokens *token;
+	t_tokens	*token;
 
 	token = (*tokens);
 	if (token && token->type == REDIR)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_exec.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:18:03 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:22:04 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	get_arg_count(t_tokens **tokens)
@@ -51,8 +63,8 @@ void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
 
 t_cmd	*parse_exec(t_tokens **tokens)
 {
-	t_exec *exec;
-	t_cmd *cmd;
+	t_exec	*exec;
+	t_cmd	*cmd;
 
 	if ((*tokens)->type == OPEN_BRACKET)
 		return (parse_parentheses(tokens));

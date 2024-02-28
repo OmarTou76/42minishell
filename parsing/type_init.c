@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   type_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:17:54 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:17:55 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
+t_cmd	*create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 {
-	t_redirs *redirs;
+	t_redirs	*redirs;
+
 	redirs = malloc(sizeof(t_redirs));
 	redirs->type = REDIR_CMD;
 	redirs->cmd = subcmd;
@@ -13,9 +26,9 @@ t_cmd *create_redirs(t_cmd *subcmd, char *filename, int mode, int fd)
 	return ((t_cmd *)redirs);
 }
 
-t_cmd *create_exec(void)
+t_cmd	*create_exec(void)
 {
-	t_exec *cmd;
+	t_exec	*cmd;
 
 	cmd = malloc(sizeof(t_exec));
 	cmd->type = EXEC;
@@ -25,9 +38,9 @@ t_cmd *create_exec(void)
 	return ((t_cmd *)cmd);
 }
 
-t_cmd *create_pipe(t_cmd *left, t_cmd *right)
+t_cmd	*create_pipe(t_cmd *left, t_cmd *right)
 {
-	t_pipe *cmd;
+	t_pipe	*cmd;
 
 	cmd = malloc(sizeof(t_pipe));
 	cmd->type = PIPE_CMD;
