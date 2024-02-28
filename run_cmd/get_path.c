@@ -30,6 +30,15 @@ int	compute_and_check_path(char *execname, char *path, char target[], int bytes)
 	return (can_exec(target));
 }
 
+void	free_split(char **paths)
+{
+	int i ;
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+}
+
 char	*get_file_path(char *execname, t_list *envp)
 {
 	char	filepath[1024];
@@ -46,16 +55,11 @@ char	*get_file_path(char *execname, t_list *envp)
 		i++;
 	if (!paths[i])
 	{
-		while (paths[++i])
-			free(paths[i]);
-		free(paths);
+		free_split(paths);
 		return (NULL);
 	}
 	executable = ft_strndup(filepath, ft_strlen(filepath));
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	free_split(paths);
 	return (executable);
 }
 

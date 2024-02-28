@@ -3,38 +3,33 @@
 void	handle_heredoc(int sig)
 {
 	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
 		exit(0);
-	}
-	if (sig == SIGQUIT)
-	{
-
-	}
 }
 
-void	save_heredoc(t_redirs *cmd, t_list **envp, char *tmp_file)
+void	save_heredoc(t_redirs *cmd, char *tmp_file)
 {
 	int		fd;
 	char	*line;
 
-	(void)envp;
 	unlink(tmp_file);
 	fd = open(tmp_file, O_WRONLY | O_CREAT, 0777);
 	while (1)
 	{
 		signal(SIGINT, handle_heredoc);
-		signal(SIGQUIT, handle_heredoc);
+		//signal(SIGQUIT, SIG_IGN);
 		line = readline("heredoc> ");
-		if (line && ft_strcmp(line, cmd->filename) == 0)
+		if (!line)
 		{
-			free(line);
-			break ;
+			write(1, "\n", 1);
+			break;
 		}
+		if (line && ft_strcmp(line, cmd->filename) == 0)
+			break ;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 	}
+	free(line);
 	free(cmd->filename);
 	cmd->filename = ft_strndup(tmp_file, ft_strlen(tmp_file));
 	close(fd);
@@ -46,7 +41,7 @@ void	run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd)
 
 	cmd = (t_redirs *)c;
 	if (cmd->is_here_doc)
-		save_heredoc(cmd, envp, "__fake__");
+		save_heredoc(cmd, "__fake__");
 	if (prev_fd != cmd->fd)
 		close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
@@ -72,7 +67,7 @@ void	run_multiple_heredoc(t_redirs *cmd, t_list **envp)
 		if (next->is_here_doc)
 			run_multiple_heredoc(next, envp);
 	}
-	save_heredoc(cmd, envp, "__fake__");
+	save_heredoc(cmd, "__fake__");
 	unlink("__fake__");
 }
 
@@ -108,7 +103,7 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 			run_multiple_heredoc(next, envp);
 			update_cmd(&c);
 		}
-		save_heredoc(cmd, envp, "__tmp__");
+		save_heredoc(cmd, "__tmp__");
 	}
 	close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
