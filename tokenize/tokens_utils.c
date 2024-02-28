@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:19:18 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:30:47 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*trim_quotes(t_tokens **tokens)
@@ -49,7 +61,7 @@ int	save_spaces(t_tokens **tokens, char *cmd, int *i)
 
 int	get_token_list(char *usr_cmd, t_tokens **tokens)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	*tokens = NULL;

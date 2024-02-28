@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assign_types.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:19:12 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:19:13 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int handle_pipe(t_tokens **tokens, char *cmd, int *i)
+int	handle_pipe(t_tokens **tokens, char *cmd, int *i)
 {
-	t_tokens *token;
-	char *tok;
+	t_tokens	*token;
+	char		*tok;
 
 	token = NULL;
 	if (cmd[*i] == '|')
@@ -22,10 +34,10 @@ int handle_pipe(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int handle_parentheses(t_tokens **tokens, char *cmd, int *i)
+int	handle_parentheses(t_tokens **tokens, char *cmd, int *i)
 {
-	t_tokens *token;
-	char *tok;
+	t_tokens	*token;
+	char		*tok;
 
 	token = NULL;
 	if (cmd[*i] == '(' || cmd[*i] == ')')
@@ -45,16 +57,17 @@ int handle_parentheses(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int handle_text(t_tokens **tokens, char *cmd, int *i)
+int	handle_text(t_tokens **tokens, char *cmd, int *i)
 {
-	int len;
-	char *str;
-	char *tok;
-	t_tokens *token;
+	int			len;
+	char		*str;
+	char		*tok;
+	t_tokens	*token;
 
 	str = cmd + (*i);
 	len = 0;
-	while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len], QUOTES) && !is_charset(str[len], "<>|()"))
+	while (str[len] && !is_charset(str[len], SPACES) && !is_charset(str[len],
+			QUOTES) && !is_charset(str[len], "<>|()"))
 		len++;
 	if (len)
 	{
@@ -71,12 +84,12 @@ int handle_text(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int handle_quotes(t_tokens **tokens, char *cmd, int *i)
+int	handle_quotes(t_tokens **tokens, char *cmd, int *i)
 {
-	int len;
-	char *tok;
-	t_tokens *token;
-	char quote;
+	int			len;
+	char		*tok;
+	t_tokens	*token;
+	char		quote;
 
 	if (!is_charset(cmd[*i], QUOTES))
 		return (0);
@@ -100,11 +113,11 @@ int handle_quotes(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int handle_redir(t_tokens **tokens, char *cmd, int *i)
+int	handle_redir(t_tokens **tokens, char *cmd, int *i)
 {
-	int len;
-	char *tok;
-	t_tokens *token;
+	int			len;
+	char		*tok;
+	t_tokens	*token;
 
 	len = 0;
 	while (cmd[(*i) + len] >= '0' && cmd[(*i) + len] <= '9')
