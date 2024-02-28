@@ -111,7 +111,7 @@ int	print_export(t_list *env_var)
 	{
 		var = (t_var *)env_var->content;
 		env_var = env_var->next;
-		if (!ft_strcmp(var->key, "?") || !ft_strcmp(var->key, "_"))
+		if (!ft_strcmp(var->key, "?") || !ft_strcmp(var->key, "_") || !ft_strcmp(var->key, "_LAST_EXIT_"))
 			continue ;
 		var_tbl[i++] = var;
 	}
