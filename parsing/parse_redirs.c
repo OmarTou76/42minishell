@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:08 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:21:13 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:00:30 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ t_cmd	*parse_redirs(t_cmd *cmd, t_tokens **tokens)
 	token = (*tokens);
 	if (token && token->type == REDIR)
 	{
-		if (!token->next)
-			exit_on_error("Missing file name after redirs");
 		if (!ft_strcmp(token->cmd, ">") || !ft_strcmp(token->cmd, ">>"))
 			cmd = stdout_redirs(cmd, tokens);
 		else if (!ft_strcmp(token->cmd, "<") || !ft_strcmp(token->cmd, "<<"))

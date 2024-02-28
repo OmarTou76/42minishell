@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:18 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:30:47 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:58:39 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	get_token_list(char *usr_cmd, t_tokens **tokens)
 	}
 	else if (tokens_have_conflicts(tokens))
 	{
-		printf("Parentheses error\n");
+		printf("Syntax error\n");
 		free_tokens(*tokens);
 		return (-1);
 	}

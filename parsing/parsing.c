@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:17:47 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:17:48 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:01:31 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_cmd	*parse_pipe(t_tokens **tokens)
 	t_tokens	*tmp;
 
 	cmd = parse_exec(tokens);
+	if (cmd == NULL)
+		return (cmd);
 	if ((*tokens) && (*tokens)->type == PIPE)
 	{
 		tmp = (*tokens);

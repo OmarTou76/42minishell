@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 12:26:44 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:41:00 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void				file_error(char *file, char *error);
 void				*load_var_error(char *err_str, t_var *err_var, void *ret);
 
 // UTILS
-void				exit_on_error(char *s);
 int					is_alnum(char c);
 int					is_charset(char c, char *cs);
 char				*strchrs(char *s, char *cs);

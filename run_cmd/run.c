@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 14:07:03 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:41:40 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	run_pipe(t_cmd *cmd, t_list **envp)
 		p_cmd->left = r_cmd->cmd;
 	}
 	if (pipe(p) < 0)
-		exit_on_error("Pipe function");
+		printf("pipe error\n");
 	left_pid = fork();
 	if (left_pid == 0)
 		run_left_cmd(p_cmd, p, envp);

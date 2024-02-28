@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_redirs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 12:58:17 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:44:20 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd)
 		close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
 	{
-		printf("%s, ", cmd->filename);
-		exit_on_error("No such file");
+		printf("%s, no such file\b", cmd->filename);
+		exit(0);
 	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
@@ -119,8 +119,8 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 	close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
 	{
-		printf("%s, ", cmd->filename);
-		exit_on_error("No such file");
+		printf("%s, No such file\n", cmd->filename);
+		exit(0);
 	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
