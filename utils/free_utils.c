@@ -53,4 +53,3 @@ void	ft_safe_free(void *mem)
 	if (mem)
 		free(mem);
 }
-
