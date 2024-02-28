@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 11:16:03 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:26:44 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void				run_redirs(t_cmd *c, t_list **envp, int run_next);
 void				update_cmd(t_cmd **cmd);
 void				run_multiple_heredoc(t_redirs *cmd, t_list **envp);
 void				run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd);
-void				save_heredoc(t_redirs *cmd, t_list **envp, char *tmp_file);
+void				save_heredoc(t_redirs *cmd, char *tmp_file);
 
 int					can_exec(char *filepath);
 char				*get_file_path(char *execname, t_list *envp);
