@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/28 10:18:29 by ncourtoi          #+#    #+#             */
+/*   Updated: 2024/02/28 10:36:05 by ncourtoi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-static int is_valid_option(char *str)
+static int	is_valid_option(char *str)
 {
 	if (*str != '-')
 		return (0);
@@ -13,9 +25,9 @@ static int is_valid_option(char *str)
 		return (0);
 }
 
-static int number_of_options(int argc, char **argv)
+static int	number_of_options(int argc, char **argv)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < argc)
@@ -27,10 +39,10 @@ static int number_of_options(int argc, char **argv)
 	return (i);
 }
 
-int built_in_echo(t_exec *exec, t_list **env)
+int	built_in_echo(t_exec *exec, t_list **env)
 {
-	int i;
-	int n_option;
+	int	i;
+	int	n_option;
 
 	(void)env;
 	n_option = 0;
