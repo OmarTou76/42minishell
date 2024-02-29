@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:27:40 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:00:09 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next);
 void	exec_cmd_by_type(t_cmd *cmd, t_list **envp);
 void	update_cmd(t_cmd **cmd);
 
-void	refresh_argc(t_exec *e_cmd)
-{
-	int	i;
-
-	i = 0;
-	while (e_cmd->argv[i])
-		i++;
-	e_cmd->argc = i;
-}
 
 int	handle_status(int pid)
 {
@@ -44,7 +35,6 @@ void	run_exec(t_cmd *c, t_list **envp)
 	char	*filepath;
 
 	e_cmd = (t_exec *)c;
-	refresh_argc(e_cmd);
 	if (!e_cmd->is_builtin)
 	{
 		if (!can_exec(e_cmd->argv[0]))

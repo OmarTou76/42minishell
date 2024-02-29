@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:03 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 12:15:49 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:01:15 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,19 @@ int	get_arg_count(t_tokens **tokens)
 	c = 0;
 	while (tmp)
 	{
-		if (tmp->type == PIPE || tmp->type == REDIR
-			|| tmp->type == CLOSE_BRACKET)
+		if (tmp->type == PIPE || tmp->type == CLOSE_BRACKET)
 			break ;
-		tmp = tmp->next;
-		c++;
+		else if (tmp->type == REDIR)
+			tmp = tmp->next;
+		else
+		{
+			tmp = tmp->next;
+			c++;
+		}
 	}
 	return (c);
 }
 
-void	nul_termiate(t_exec *exec, int index)
-{
-	if (exec->argc)
-	{
-		exec->argv[index] = NULL;
-		exec->is_builtin = cmd_is_builtin(exec->argv[0]);
-	}
-}
 
 void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
 {
@@ -63,7 +59,9 @@ void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
 			remove_tokens(tokens, 1, 0);
 		}
 	}
-	nul_termiate(exec, i);
+	exec->argv[i] = NULL;
+	exec->is_builtin = cmd_is_builtin(exec->argv[0]);
+
 }
 
 t_cmd	*parse_exec(t_tokens **tokens)
