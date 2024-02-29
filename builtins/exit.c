@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 10:45:10 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:48:46 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:31:53 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ int	built_in_exit(t_exec *exec, t_list **env_var)
 		free_cmds((t_cmd *)exec);
 		exit(0);
 	}
-	return (0);
+	return (1);
 }
