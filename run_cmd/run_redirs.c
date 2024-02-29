@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_redirs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:29:22 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:08:01 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
 	{
 		printf("%s, No such file\n", cmd->filename);
-		exit(0);
+		exit(1);
 	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);
