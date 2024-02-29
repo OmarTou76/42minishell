@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:16 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:18:17 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:33:16 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	build_var(char **envp, t_list **var_list)
 		ft_lstadd_back(var_list, elem);
 		envp++;
 	}
-	if (!edit_var(var_list, "?", "0"))
+	if (!edit_var(var_list, "_LAST_EXIT_", "0"))
 	{
 		ft_clearlst(var_list, free_var);
 		return (0);
