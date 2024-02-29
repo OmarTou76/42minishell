@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:18 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 11:51:37 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/29 12:25:21 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	save_spaces(t_tokens **tokens, char *cmd, int *i)
 	return (0);
 }
 
-int	get_token_list(char *usr_cmd, t_tokens **tokens)
+int	tokenize(char *usr_cmd, t_tokens **tokens)
 {
 	int	i;
 
@@ -80,6 +80,14 @@ int	get_token_list(char *usr_cmd, t_tokens **tokens)
 		while (save_spaces(tokens, usr_cmd, &i))
 			break ;
 	}
+	return (i);
+}
+
+int	get_token_list(char *usr_cmd, t_tokens **tokens)
+{
+	int	i;
+
+	i = tokenize(usr_cmd, tokens);
 	if (usr_cmd[i])
 	{
 		printf("Error on parsing at %c (%d)\n", usr_cmd[i], i);
@@ -94,4 +102,3 @@ int	get_token_list(char *usr_cmd, t_tokens **tokens)
 	}
 	return (0);
 }
-
