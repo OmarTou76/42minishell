@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:17:47 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 15:01:31 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:49:03 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ t_cmd	*parse_parentheses(t_tokens **tokens)
 {
 	t_cmd	*cmd;
 
-	remove_tokens(tokens, 1);
+	remove_tokens(tokens, 1, 0);
 	cmd = parse_tokens(tokens);
 	if ((*tokens)->type != CLOSE_BRACKET)
 		perror("Invalid syntax (close bracket)");
-	remove_tokens(tokens, 1);
+	remove_tokens(tokens, 1, 0);
 	cmd = parse_redirs(cmd, tokens);
 	return (cmd);
 }

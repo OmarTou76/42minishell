@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:03 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:22:04 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:47:55 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
 		{
 			exec->argv[i] = (*tokens)->cmd;
 			i++;
-			remove_tokens(tokens, 1);
+			remove_tokens(tokens, 1, 0);
 		}
 	}
 	if (exec->argc)

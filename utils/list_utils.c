@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:48 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:54:26 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:47:35 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	append_token(t_tokens **list, t_tokens *new)
 	}
 }
 
-void	remove_tokens(t_tokens **tokens, size_t nb_to_remove)
+void	remove_tokens(t_tokens **tokens, size_t nb_to_remove, int rm_str)
 {
 	t_tokens	*to_remove;
 	size_t		i;
@@ -49,6 +49,8 @@ void	remove_tokens(t_tokens **tokens, size_t nb_to_remove)
 	{
 		to_remove = *tokens;
 		*tokens = (*tokens)->next;
+		if (rm_str)
+			free(to_remove->cmd);
 		free(to_remove);
 		i++;
 	}

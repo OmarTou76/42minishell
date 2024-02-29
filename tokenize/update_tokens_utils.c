@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:31:41 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 10:40:01 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:50:19 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void	update_tokens(t_tokens **tokens, t_list *envp_list)
 	affect_env_var(tokens, envp_list);
 	merge_tokens(tokens);
 	if ((*tokens)->type == SPACE_SEPARATOR)
-		remove_tokens(tokens, 1);
+		remove_tokens(tokens, 1, 1);
 	remove_spaces(tokens);
 }

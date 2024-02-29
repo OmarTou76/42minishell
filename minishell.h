@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:44:41 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:48:48 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ char				**build_env(t_list *env_var);
 // LIST UTILS
 t_tokens			*create_token(char *token, t_tok_type TYPE);
 void				append_token(t_tokens **list, t_tokens *new);
-void				remove_tokens(t_tokens **tokens, size_t nb_to_remove);
+void				remove_tokens(t_tokens **tokens, size_t nb_to_remove,
+						int rm_str);
 void				free_tokens(t_tokens *tokens);
 char				*ft_strjoin(char *s1, char const *s2, size_t len);
 t_list				*ft_newlist(void *content);

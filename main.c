@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:25 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:16:26 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:58:28 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_status = 0;
-
-void	exit_on_error(char *s)
-{
-	printf("%s\n", s);
-	exit(0);
-}
 
 void	handle_sig(int sig)
 {
@@ -32,11 +26,44 @@ void	handle_sig(int sig)
 	}
 }
 
+void	init_signal(void)
+{
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+int	get_cmd(char **cmd)
+{
+	*cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
+	if (!*cmd)
+	{
+		free(*cmd);
+		write(1, "\n", 1);
+		return (0);
+	}
+	else
+		add_history(*cmd);
+	return (1);
+}
+
+void	parse_and_run_cmds(t_tokens **tokens, t_list **envp_list)
+{
+	t_cmd	*cmds;
+
+	if (!*tokens)
+		return ;
+	cmds = NULL;
+	cmds = parse_tokens(tokens);
+	free_tokens(*tokens);
+	g_status = 1;
+	runcmd(cmds, envp_list);
+	free_cmds(cmds);
+}
+
 int	main(int argc, char const *argv[], char **envp)
 {
 	t_tokens	*tokens;
 	char		*cmd;
-	t_cmd		*cmds;
 	t_list		*envp_list;
 
 	(void)argc;
@@ -45,33 +72,17 @@ int	main(int argc, char const *argv[], char **envp)
 	while (1)
 	{
 		g_status = 0;
-		signal(SIGINT, handle_sig);
-		signal(SIGQUIT, SIG_IGN);
-		cmd = readline("➜  \033[1;32mminishell/>\033[0m  ");
-		if (!ft_strlen(cmd))
+		init_signal();
+		if (!get_cmd(&cmd))
+			break ;
+		if (!ft_strlen(cmd) || get_token_list(cmd, &tokens))
 		{
 			free(cmd);
-			if (!cmd)
-			{
-				write(1, "\n", 1);
-				break ;
-			}
 			continue ;
 		}
-		add_history(cmd);
-		if (get_token_list(cmd, &tokens))
-			continue ;
 		free(cmd);
 		update_tokens(&tokens, envp_list);
-		if (tokens)
-		{
-			cmds = NULL;
-			cmds = parse_tokens(&tokens);
-			free_tokens(tokens);
-			g_status = 1;
-			runcmd(cmds, &envp_list);
-			free_cmds(cmds);
-		}
+		parse_and_run_cmds(&tokens, &envp_list);
 	}
 	ft_clearlst(&envp_list, free_var);
 	return (0);
