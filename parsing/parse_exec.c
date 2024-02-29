@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:03 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 11:47:55 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/02/29 12:15:49 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ int	get_arg_count(t_tokens **tokens)
 		c++;
 	}
 	return (c);
+}
+
+void	nul_termiate(t_exec *exec, int index)
+{
+	if (exec->argc)
+	{
+		exec->argv[index] = NULL;
+		exec->is_builtin = cmd_is_builtin(exec->argv[0]);
+	}
 }
 
 void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
@@ -54,11 +63,7 @@ void	get_arg_value(t_cmd **cmd, t_tokens **tokens)
 			remove_tokens(tokens, 1, 0);
 		}
 	}
-	if (exec->argc)
-	{
-		exec->argv[i] = NULL;
-		exec->is_builtin = cmd_is_builtin(exec->argv[0]);
-	}
+	nul_termiate(exec, i);
 }
 
 t_cmd	*parse_exec(t_tokens **tokens)
