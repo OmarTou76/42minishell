@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omar <omar@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:45 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:26:27 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 20:56:46 by omar             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	cmd_is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (1);
 	else if (ft_strcmp(cmd, "echo") == 0)
