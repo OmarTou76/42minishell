@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_tokens_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:31:41 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:31:59 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 10:40:01 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ void	remove_spaces(t_tokens **tokens)
 	t_tokens	*to_remove;
 
 	token = *tokens;
-	if (token->type == SPACE_SEPARATOR && !token->next)
-	{
-		free((*tokens)->cmd);
-		free((*tokens));
-		*tokens = NULL;
-		return ;
-	}
 	while (token && token->next)
 	{
 		if (token->next->type == SPACE_SEPARATOR)
@@ -56,5 +49,7 @@ void	update_tokens(t_tokens **tokens, t_list *envp_list)
 {
 	affect_env_var(tokens, envp_list);
 	merge_tokens(tokens);
+	if ((*tokens)->type == SPACE_SEPARATOR)
+		remove_tokens(tokens, 1);
 	remove_spaces(tokens);
 }
