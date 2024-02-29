@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:21 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:31:56 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:13:04 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	replace_by_env(t_tokens *token, t_list *envp_list)
 		rest = ft_strndup(token->cmd + (token->env_var - token->cmd),
 				ft_strlen(token->cmd));
 		i = 1;
-		while (rest[i] && (rest[i] > 32 && rest[i] < 127))
+		while (rest[i] && (rest[i] > 40 && rest[i] < 127) && (rest[i - 1] != 63 && i == 1))
 			i++;
 		env = ft_strndup(rest, i);
 		if (ft_strcmp(env, "$?") == 0)
