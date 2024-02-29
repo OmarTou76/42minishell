@@ -6,7 +6,7 @@
 /*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:26 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:35:41 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:07:13 by ncourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ int	built_in_cd(t_exec *exec, t_list **env_var)
 
 	if (exec->argc == 1)
 		return (cd_home(env_var));
+	else if (exec->argc > 2)
+	{
+		cmd_error_write("cd", "too many arguments");
+		return(1);
+	}
 	else
 	{
 		if (ft_strcmp(exec->argv[1], "-") == 0)
