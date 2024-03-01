@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:51 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 10:04:23 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:27:18 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,32 @@ char	*get_file_path(char *execname, t_list *envp)
 	executable = ft_strndup(filepath, ft_strlen(filepath));
 	free_split(paths);
 	return (executable);
+}
+
+void	save_heredoc(t_redirs *cmd, char *tmp_file)
+{
+	int		fd;
+	char	*line;
+
+	unlink(tmp_file);
+	fd = open(tmp_file, O_WRONLY | O_CREAT, 0777);
+	while (1)
+	{
+		signal(SIGINT, handle_heredoc);
+		line = readline("heredoc> ");
+		if (!line)
+		{
+			write(1, "\n", 1);
+			break ;
+		}
+		if (line && ft_strcmp(line, cmd->filename) == 0)
+			break ;
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	free(line);
+	free(cmd->filename);
+	cmd->filename = ft_strndup(tmp_file, ft_strlen(tmp_file));
+	close(fd);
 }

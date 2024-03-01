@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 09:39:13 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:44:38 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,35 @@ int	handle_status(int pid)
 	return (status);
 }
 
+void	run_executable(t_exec *e_cmd, t_list **envp)
+{
+	char	*filepath;
+
+	filepath = get_file_path(e_cmd->argv[0], *envp);
+	if (filepath)
+	{
+		free(e_cmd->argv[0]);
+		e_cmd->argv[0] = filepath;
+	}
+	else if (!can_exec(e_cmd->argv[0]))
+	{
+		free(filepath);
+		printf("minishell: command not found: %s\n", e_cmd->argv[0]);
+		exit(127);
+	}
+	execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp)); perror("minishell");
+	exit(126);
+}
+
 void	run_exec(t_cmd *c, t_list **envp)
 {
 	t_exec	*e_cmd;
-	char	*filepath;
 
 	e_cmd = (t_exec *)c;
+	if (!ft_strlen(e_cmd->argv[0]))
+		exit(0);
 	if (!e_cmd->is_builtin)
-	{
-		filepath = get_file_path(e_cmd->argv[0], *envp);
-		if (filepath)
-		{
-			free(e_cmd->argv[0]);
-			e_cmd->argv[0] = filepath;
-		}
-		else if (!can_exec(e_cmd->argv[0]))
-		{
-			free(filepath);
-			printf("minishell: command not found: %s\n", e_cmd->argv[0]);
-			exit(127);
-		}
-		execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp));
-		perror("minishell");
-		exit(126);
-	}
+		run_executable(e_cmd, envp);
 	else
 		exit(run_builtin(e_cmd, envp));
 	exit(1);

@@ -6,39 +6,11 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 09:54:07 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:29:07 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	save_heredoc(t_redirs *cmd, char *tmp_file)
-{
-	int		fd;
-	char	*line;
-
-	unlink(tmp_file);
-	fd = open(tmp_file, O_WRONLY | O_CREAT, 0777);
-	while (1)
-	{
-		signal(SIGINT, handle_heredoc);
-		line = readline("heredoc> ");
-		if (!line)
-		{
-			write(1, "\n", 1);
-			break ;
-		}
-		if (line && ft_strcmp(line, cmd->filename) == 0)
-			break ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	free(line);
-	free(cmd->filename);
-	cmd->filename = ft_strndup(tmp_file, ft_strlen(tmp_file));
-	close(fd);
-}
 
 void	run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd)
 {
@@ -94,6 +66,25 @@ void	update_cmd(t_cmd **cmd)
 	init->cmd = (t_cmd *)next_cmd;
 }
 
+void	open_and_process(t_redirs *cmd, t_list **envp, int run_next)
+{
+	close(cmd->fd);
+	if (open(cmd->filename, cmd->mode, 0777) < 0)
+	{
+		printf("%s, No such file\n", cmd->filename);
+		exit(1);
+	}
+	if (cmd->is_here_doc)
+		unlink(cmd->filename);
+	if (run_next)
+	{
+		if (cmd->cmd->type == REDIR_CMD)
+			run_sub_redirs(cmd->cmd, envp, cmd->fd);
+		else
+			exec_cmd_by_type(cmd->cmd, envp);
+	}
+}
+
 void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 {
 	t_redirs	*cmd;
@@ -110,19 +101,5 @@ void	run_redirs(t_cmd *c, t_list **envp, int run_next)
 		}
 		save_heredoc(cmd, "__tmp__");
 	}
-	close(cmd->fd);
-	if (open(cmd->filename, cmd->mode, 0777) < 0)
-	{
-		printf("%s, No such file\n", cmd->filename);
-		exit(1);
-	}
-	if (cmd->is_here_doc)
-		unlink(cmd->filename);
-	if (run_next)
-	{
-		if (cmd->cmd->type == REDIR_CMD)
-			run_sub_redirs(cmd->cmd, envp, cmd->fd);
-		else
-			exec_cmd_by_type(cmd->cmd, envp);
-	}
+	open_and_process(cmd, envp, run_next);
 }
