@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:45 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 11:06:05 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:13:40 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	cmd_is_builtin(char *cmd)
 	return (0);
 }
 
-builtin_func	get_builtin_func(char *cmd)
+t_builtin_func	get_builtin_func(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (&built_in_echo);
@@ -54,7 +54,7 @@ builtin_func	get_builtin_func(char *cmd)
 
 int	run_builtin(t_exec *cmd, t_list **envp)
 {
-	builtin_func	exec_builtin;
+	t_builtin_func	exec_builtin;
 
 	exec_builtin = get_builtin_func(cmd->argv[0]);
 	return (exec_builtin(cmd, envp));

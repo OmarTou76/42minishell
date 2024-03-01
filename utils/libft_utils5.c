@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils5.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 11:07:41 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 11:07:58 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:17:06 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ char	**ft_split(char *s, char c)
 	int		index;
 	char	**split;
 
-	if (!s || !(split = malloc((count_words(s, c) + 1) * sizeof(char *))))
+	if (!s)
 		return (0);
+	split = malloc((count_words(s, c) + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	index = -1;

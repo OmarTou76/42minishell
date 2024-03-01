@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 11:06:18 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:13:47 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_redirs
 	int				is_here_doc;
 }					t_redirs;
 
-typedef int		(*builtin_func)(t_exec *, t_list **envp);
+typedef int		(*t_builtin_func)(t_exec *, t_list **envp);
 
 // DEBUGGER
 void				print_tokens(t_tokens *tokens);

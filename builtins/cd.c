@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:18:26 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 12:55:59 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:10:02 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	built_in_cd(t_exec *exec, t_list **env_var)
 	else if (exec->argc > 2)
 	{
 		cmd_error_write("cd", "too many arguments");
-		return(1);
+		return (1);
 	}
 	else
 	{
