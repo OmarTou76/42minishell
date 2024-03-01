@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omar <omar@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 21:28:36 by omar             ###   ########.fr       */
+/*   Updated: 2024/03/01 09:33:04 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	run_exec(t_cmd *c, t_list **envp)
 			exit(127);
 		}
 		execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp));
+		perror("minishell");
+		exit(126);
 	}
 	else
 		exit(run_builtin(e_cmd, envp));
