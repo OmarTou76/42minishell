@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 10:44:38 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:50:20 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	run_executable(t_exec *e_cmd, t_list **envp)
 		printf("minishell: command not found: %s\n", e_cmd->argv[0]);
 		exit(127);
 	}
-	execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp)); perror("minishell");
+	execve(e_cmd->argv[0], e_cmd->argv, build_env(*envp));
+	perror("minishell");
 	exit(126);
 }
 

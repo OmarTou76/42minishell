@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:45 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 09:40:47 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:06:05 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	cmd_is_builtin(char *cmd)
 		return (1);
 	return (0);
 }
-
-typedef int		(*builtin_func)(t_exec *, t_list **envp);
 
 builtin_func	get_builtin_func(char *cmd)
 {

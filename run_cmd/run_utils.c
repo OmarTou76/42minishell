@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:27:19 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:37:59 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:03:29 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,8 @@ void	run_pipe(t_cmd *cmd, t_list **envp)
 	t_pipe		*p_cmd;
 	t_redirs	*r_cmd;
 	int			p[2];
-	int			l_status;
-	int			r_status;
-	int			left_pid;
 	int			right_pid;
 
-	l_status = 0;
-	r_status = 0;
 	p_cmd = (t_pipe *)cmd;
 	r_cmd = (t_redirs *)p_cmd->left;
 	if (p_cmd->left->type == REDIR_CMD && r_cmd->is_here_doc)
@@ -34,19 +29,14 @@ void	run_pipe(t_cmd *cmd, t_list **envp)
 	}
 	if (pipe(p) < 0)
 		printf("pipe error\n");
-	left_pid = fork();
-	if (left_pid == 0)
+	if (fork() == 0)
 		run_left_cmd(p_cmd, p, envp);
 	right_pid = fork();
 	if (right_pid == 0)
 		run_right_cmd(p_cmd, p, envp);
 	close(p[0]);
 	close(p[1]);
-	l_status = handle_status(left_pid);
-	r_status = handle_status(right_pid);
-	if (!r_status)
-		exit(l_status);
-	exit(r_status);
+	exit(handle_status(right_pid));
 }
 
 void	exec_cmd_by_type(t_cmd *cmd, t_list **envp)
