@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:53 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 15:08:01 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:54:07 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	run_sub_redirs(t_cmd *c, t_list **envp, int prev_fd)
 		close(cmd->fd);
 	if (open(cmd->filename, cmd->mode, 0777) < 0)
 	{
-		printf("%s, no such file\b", cmd->filename);
-		exit(0);
+		perror(cmd->filename);
+		exit(1);
 	}
 	if (cmd->is_here_doc)
 		unlink(cmd->filename);

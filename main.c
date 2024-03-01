@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:25 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 11:58:28 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:21:07 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,16 @@ void	handle_sig(int sig)
 	if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
-		write(1, "\n", 1);
+		printf("\n");
 		rl_on_new_line();
 		if (!g_status)
 			rl_redisplay();
+	}
+	if (sig == SIGQUIT && g_status)
+	{
+		rl_replace_line("", 0);
+		printf("Quit (core dumped)\n");
+		rl_on_new_line();
 	}
 }
 
@@ -56,6 +62,7 @@ void	parse_and_run_cmds(t_tokens **tokens, t_list **envp_list)
 	cmds = parse_tokens(tokens);
 	free_tokens(*tokens);
 	g_status = 1;
+	signal(SIGQUIT, handle_sig);
 	runcmd(cmds, envp_list);
 	free_cmds(cmds);
 }
@@ -75,7 +82,7 @@ int	main(int argc, char const *argv[], char **envp)
 		init_signal();
 		if (!get_cmd(&cmd))
 			break ;
-		if (!ft_strlen(cmd) || get_token_list(cmd, &tokens))
+		if (!ft_strlen(cmd) || get_token_list(cmd, &tokens, &envp_list))
 		{
 			free(cmd);
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:19:18 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 12:25:21 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:56:44 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	tokenize(char *usr_cmd, t_tokens **tokens)
 	return (i);
 }
 
-int	get_token_list(char *usr_cmd, t_tokens **tokens)
+int	get_token_list(char *usr_cmd, t_tokens **tokens, t_list **envp_list)
 {
 	int	i;
 
@@ -92,12 +92,14 @@ int	get_token_list(char *usr_cmd, t_tokens **tokens)
 	{
 		printf("Error on parsing at %c (%d)\n", usr_cmd[i], i);
 		free_tokens(*tokens);
+		edit_var(envp_list, "_LAST_EXIT_", "2");
 		return (-1);
 	}
 	else if (tokens_have_conflicts(tokens))
 	{
 		printf("Syntax error\n");
 		free_tokens(*tokens);
+		edit_var(envp_list, "_LAST_EXIT_", "2");
 		return (-1);
 	}
 	return (0);

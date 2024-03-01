@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omar <omar@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:45 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 20:56:46 by omar             ###   ########.fr       */
+/*   Updated: 2024/03/01 09:40:47 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ int	cmd_is_builtin(char *cmd)
 }
 
 typedef int		(*builtin_func)(t_exec *, t_list **envp);
-
-// Pour les tests
-void	ft_echo(t_exec *cmd, char **envp)
-{
-	int	i;
-
-	i = 1;
-	(void)envp;
-	while (cmd->argv[i])
-	{
-		printf("%s", cmd->argv[i]);
-		i++;
-		if (cmd->argv[i])
-			printf(" ");
-		else
-			printf("\n");
-	}
-}
 
 builtin_func	get_builtin_func(char *cmd)
 {

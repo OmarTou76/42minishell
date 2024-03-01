@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/29 11:48:48 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:57:36 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ int					handle_redir(t_tokens **tokens, char *cmd, int *i);
 
 char				*trim_quotes(t_tokens **tokens);
 int					get_quoted_len(char *str, char quote);
-int					get_token_list(char *usr_cmd, t_tokens **tokens);
+int					get_token_list(char *usr_cmd, t_tokens **tokens,
+						t_list **envp_list);
 
 int					tokens_have_conflicts(t_tokens **tokens);
 void				merge_tokens(t_tokens **tokens);

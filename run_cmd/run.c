@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:56 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 09:33:04 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:39:13 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	run_exec(t_cmd *c, t_list **envp)
 	}
 	else
 		exit(run_builtin(e_cmd, envp));
-	exit(0);
+	exit(1);
 }
 
 void	run_left_cmd(t_pipe *p_cmd, int p[2], t_list **envp)

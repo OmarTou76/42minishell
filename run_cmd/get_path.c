@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncourtoi <ncourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:54:51 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/02/28 16:26:48 by ncourtoi         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:04:23 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
-char	*get_paths(char **envp, char *key)
-{
-	int		i;
-	char	key_equal[ft_strlen(key) + 2];
-
-	i = 0;
-	ft_strlcpy(key_equal, key, ft_strlen(key) + 2);
-	ft_strlcpy(key_equal + ft_strlen(key_equal), "=", ft_strlen(key) + 2);
-	while (envp[i] && ft_strncmp(envp[i], key_equal, ft_strlen(key_equal)) != 0)
-		i++;
-	if (!envp[i])
-		return (NULL);
-	return (envp[i] + ft_strlen(key_equal));
-}
 
 int	compute_and_check_path(char *execname, char *path, char target[], int bytes)
 {
@@ -38,7 +22,7 @@ int	compute_and_check_path(char *execname, char *path, char target[], int bytes)
 
 void	free_split(char **paths)
 {
-	int	i ;
+	int	i;
 
 	i = -1;
 	while (paths[++i])
@@ -68,18 +52,4 @@ char	*get_file_path(char *execname, t_list *envp)
 	executable = ft_strndup(filepath, ft_strlen(filepath));
 	free_split(paths);
 	return (executable);
-}
-
-void	update_arg(char **arg, char **envp)
-{
-	char	*value;
-
-	value = get_paths(envp, (*arg) + 1);
-	if (!value)
-		*arg[0] = 0;
-	else
-	{
-		free(*arg);
-		*arg = ft_strndup(value, ft_strlen(value));
-	}
 }
