@@ -6,7 +6,7 @@
 /*   By: otourabi <otourabi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:16:13 by ncourtoi          #+#    #+#             */
-/*   Updated: 2024/03/01 11:13:47 by otourabi         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:23:54 by otourabi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,6 @@ typedef struct s_redirs
 }					t_redirs;
 
 typedef int		(*t_builtin_func)(t_exec *, t_list **envp);
-
-// DEBUGGER
-void				print_tokens(t_tokens *tokens);
-void				print_args(t_exec *exc);
-void				print_type(t_type type);
-void				print_cmd(t_cmd *cmd);
 
 void				*ft_calloc(size_t count, size_t size);
 void				file_error(char *file, char *error);
