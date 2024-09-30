@@ -4,7 +4,6 @@ Minishell is a small shell program written in C. It aims to mimic some features 
 
 ![Minishell Demo](demo.gif)
 
-:w
 
 ## Features
 
