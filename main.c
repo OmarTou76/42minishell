@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
+#include <string.h>
 
 int		g_status = 0;
 
@@ -18,7 +20,7 @@ void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
-		rl_replace_line("", 0);
+		rl_line_buffer[0] = '\0';
 		printf("\n");
 		rl_on_new_line();
 		if (!g_status)
@@ -26,7 +28,7 @@ void	handle_sig(int sig)
 	}
 	if (sig == SIGQUIT && g_status)
 	{
-		rl_replace_line("", 0);
+		rl_line_buffer[0] = '\0';
 		printf("Quit (core dumped)\n");
 		rl_on_new_line();
 	}

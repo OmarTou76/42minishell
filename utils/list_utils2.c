@@ -55,22 +55,24 @@ int	ft_listsize(t_list *lst)
 	return (i);
 }
 
-void	ft_lstremoveif(t_list **alst, void *data_rm, int (*cmp)(),
-		void (*free_fct)(void *))
+typedef int (*t_cmp)(void *, void *);
+
+typedef void (*t_free_func)(void *);
+
+void	ft_lstremoveif(t_list **alst, void *data_rm, t_cmp cmp,
+		t_free_func free_func)
 {
 	t_list	*current;
 	t_list	*tmp_prev;
 
-	(void)(*cmp);
-	(void)(*data_rm);
 	current = *alst;
 	tmp_prev = NULL;
 	while (current != NULL)
 	{
 		if ((*cmp)(current->content, data_rm) == 0)
 		{
-			if (free_fct != NULL)
-				(*free_fct)(current->content);
+			if (free_func != NULL)
+				(*free_func)(current->content);
 			if (tmp_prev == NULL)
 				*alst = current->next;
 			else
